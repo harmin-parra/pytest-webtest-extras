@@ -1,6 +1,6 @@
 # pytest-webtest-extras
 
-pytest plugin to enhance pytest-html reports of webtest projects with screenshots, comments and webpages source code.
+Pytest plugin to enhance pytest-html reports of webtest projects with screenshots, comments and webpage sources.
 
 ![](https://img.shields.io/badge/license-MIT%202.0-blue.svg)
 
