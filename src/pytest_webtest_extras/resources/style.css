@@ -1,0 +1,64 @@
+.logwrapper {
+    max-height: 100px;
+}
+
+.extras_separator {
+    height:2px;
+    background-color: gray;
+    /* display: none; */
+}
+
+.extras_td {
+    width: 320px;
+    /* text-align: center; */
+}
+
+.extras_td_div {
+    text-align: center;
+}
+
+.extras_div {
+    display: inline-block;
+    text-align: center;
+}
+
+.extras_page_src {
+    font-size: 12px;
+    color: #999;
+}
+
+.extras_log_comment {
+    font-family: monospace;
+    color: maroon;
+}
+
+.extras_log_description {
+    font-family: monospace;
+    color: black;
+}
+
+.extras_log_action {
+    font-weight: bold;
+    color: black;
+}
+
+.extras_log_target {
+    color: blue;
+}
+
+.extras_log_quote {
+    font-weight: bold;
+    color: black;
+}
+
+.extras_log_fatal {
+    color: red;
+}
+
+.extras_log_img {
+    border: 1px solid black;
+    width: 300px;
+    height: 170px;
+    object-fit: cover;
+    object-position: top;
+}

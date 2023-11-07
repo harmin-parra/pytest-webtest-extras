@@ -213,7 +213,7 @@ def escape_html(text):
     return html.escape(str(text))
 
 
-def get_table_row_tag(comment, image, source, clazz="selenium_log_comment"):
+def get_table_row_tag(comment, image, source, clazz="extras_log_comment"):
     """
     Returns the HTML table row of a test step.
     
@@ -239,14 +239,14 @@ def get_table_row_tag(comment, image, source, clazz="selenium_log_comment"):
         return (
             f"<tr>"
             f"<td>{comment}</td>"
-            f'<td class="selenium_td"><div class="selenium_td_div">{image}<br>{source}</div></td>'
+            f'<td class="extras_td"><div class="extras_td_div">{image}<br>{source}</div></td>'
             f"</tr>"
         )
     else:
         return (
             f"<tr>"
             f"<td>{comment}</td>"
-            f'<td class="selenium_td"><div class="selenium_td_div">{image}</div></td>'
+            f'<td class="extras_td"><div class="extras_td_div">{image}</div></td>'
             "</tr>"
         )
 
@@ -271,24 +271,24 @@ def decorate_anchors(image, source):
     image = decorate_screenshot(image)
     if source is not None:
         source = decorate_page_source(source)
-        return f'<div class="selenium_div">{image}<br>{source}</div>'
+        return f'<div class="extras_div">{image}<br>{source}</div>'
     else:
         return image
 
 
-def decorate_screenshot(filename, clazz="selenium_log_img"):
+def decorate_screenshot(filename, clazz="extras_log_img"):
     """ Applies CSS style to a screenshot anchor element. """
     return f'<a href="{filename}" target="_blank"><img src ="{filename}" class="{clazz}"></a>'
 
 
-def decorate_page_source(filename, clazz="selenium_page_src"):
+def decorate_page_source(filename, clazz="extras_page_src"):
     """ Applies CSS style to a page source anchor element. """
     return f'<a href="{filename}" target="_blank" class="{clazz}">[page source]</a>'
 
 
 def decorate_quote():
     """ Applies CSS style to a quotation. """
-    return decorate_label('"', "selenium_log_quote")
+    return decorate_label('"', "extras_log_quote")
 
 
 def log_error_message(report, item, message):
