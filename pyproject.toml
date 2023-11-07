@@ -7,6 +7,7 @@ build-backend = "flit_core.buildapi"
 name = "pytest-webtest-extras"
 version = "0.0.1rc1"
 description = "Pytest plugin to enhance pytest-html reports of webtest projects with screenshots, comments and webpage sources."
+description = "Pytest plugin to enhance pytest-html reports of webtest projects by adding screenshots, comments and webpage sources."
 readme = "README.md"
 #license = "MIT"
 authors = [
