@@ -85,7 +85,7 @@ def check_options(request, report_folder):
 # Test fixture
 #
 @pytest.fixture(scope='function')
-def webtest_extras(request, report_folder, screenshots, comments, sources, check_options):
+def report_extras(request, report_folder, screenshots, comments, sources, check_options):
     return Extras(report_folder, screenshots, comments, sources)
 
 
@@ -116,41 +116,44 @@ def pytest_runtest_makereport(item, call):
         description = getattr(func, "__doc__")
 
         # Is the test item using the 'extras' fixtures?
-        if not ("request" in item.funcargs and "webtest_extras" in item.funcargs):
+        if not ("request" in item.funcargs and "report_extras" in item.funcargs):
             return
         feature_request = item.funcargs['request']
 
         # Get test fixture values
-        fx_extras = feature_request.getfixturevalue("webtest_extras")
-        fx_description_tag = feature_request.getfixturevalue("description_tag")
-        fx_screenshots = feature_request.getfixturevalue("screenshots")
-        fx_comments = feature_request.getfixturevalue("comments")
+        report_extras = feature_request.getfixturevalue("report_extras")
+        description_tag = feature_request.getfixturevalue("description_tag")
+        screenshots = feature_request.getfixturevalue("screenshots")
+        images = report_extras.images
+        sources = report_extras.sources
+        comments = report_extras.comments
+        log_comments = feature_request.getfixturevalue("comments")
 
         # Append test description and execution exception trace, if any.
-        utils.append_header(call, report, extras, pytest_html, description, fx_description_tag)
+        utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
-        if fx_screenshots == "none" or len(fx_extras.images) == 0:
+        if screenshots == "none" or len(images) == 0:
             report.extras = extras
             return
 
-        if not utils.check_lists_length(report, item, fx_extras):
+        if not utils.check_lists_length(report, item, report_extras):
             return
 
         links = ""
         rows = ""
-        if fx_screenshots == "all":
-            if not fx_comments:
-                for i in range(len(fx_extras.images)):
-                    links += utils.decorate_anchors(fx_extras.images[i], fx_extras.sources[i])
+        if screenshots == "all":
+            if not log_comments:
+                for i in range(len(images)):
+                    links += utils.decorate_anchors(images[i], sources[i])
             else:
-                for i in range(len(fx_extras.images)):
-                    rows += utils.get_table_row_tag(fx_extras.comments[i], fx_extras.images[i], fx_extras.sources[i])
-        else:  # fx_screenshots == "last"
-            if len(fx_extras.images) > 0:
-                if not fx_comments:
-                    links = utils.decorate_anchors(fx_extras.images[-1], fx_extras.sources[-1])
+                for i in range(len(images)):
+                    rows += utils.get_table_row_tag(comments[i], images[i], sources[i])
+        else:  # screenshots == "last"
+            if len(images) > 0:
+                if not log_comments:
+                    links = utils.decorate_anchors(images[-1], sources[-1])
                 else:
-                    rows += utils.get_table_row_tag(fx_extras.comments[-1], fx_extras.images[-1], fx_extras.sources[-1])
+                    rows += utils.get_table_row_tag(comments[-1], images[-1], sources[-1])
 
         # Add horizontal line between the header and the comments/screenshots
         if len(extras) > 0 and len(links) + len(rows) > 0:
@@ -167,3 +170,10 @@ def pytest_runtest_makereport(item, call):
             )
             extras.append(pytest_html.extras.html(rows))
         report.extras = extras
+        # Check if there was a screenshot gathering failure
+        if screenshots != 'none':
+            for image in images:
+                if image == f"screenshots{os.sep}error.png":
+                    message = "Failed to gather screenshot(s)"
+                    utils.log_error_message(report, item, message)
+                    break

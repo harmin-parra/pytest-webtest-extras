@@ -1,3 +1,4 @@
+import base64
 import os
 import pathlib
 import pytest
@@ -42,15 +43,15 @@ def get_folder(filepath):
 
 def check_lists_length(report, item, fx_extras: Extras):
     """ Used to verify if the images, comments and page sources lists have coherent lenghts. """
-    message = ('Lists "images", "comments" and "sources" have incoherent lengths. '
+    message = ('"images", "comments" and/or "sources" lists have incoherent lengths. '
                "Screenshots won't be logged for this test.")
     max_length = len(fx_extras.images)
     max_length = len(fx_extras.comments) if len(fx_extras.comments) > max_length else max_length
     max_length = len(fx_extras.sources) if len(fx_extras.sources) > max_length else max_length
     if len(fx_extras.images) == max_length:
         if (
-            (len(fx_extras.comments) == max_length or len(fx_extras.comments) == 0) and
-            (len(fx_extras.sources) == max_length or len(fx_extras.sources) == 0)
+            len(fx_extras.comments) in (max_length, 0) and
+            len(fx_extras.sources) in (max_length, 0)
         ):
             return True
     log_error_message(report, item, message)
@@ -78,29 +79,30 @@ def create_assets(report_folder):
 #
 # Persistence functions
 #
-def save_screenshot_selenium(report_folder, index, driver):
-    """
-    Save a screenshot in 'screenshots' folder under the specified folder.
-    
-    Returns:
-        str: The filename for the anchor link.
-    """
-    link = f"screenshots{os.sep}image-{index}.png"
-    folder = ""
-    if report_folder is not None and report_folder != '':
-        folder = f"{report_folder}{os.sep}"
-    filename = folder + link
-    try:
-        if hasattr(driver, "save_full_page_screenshot"):
-            driver.save_full_page_screenshot(filename)
-        else:
-            driver.save_screenshot(filename)
-    except Exception as e:
-        trace = traceback.format_exc()
-        link = f"screenshots{os.sep}error.png"
-        print(f"{str(e)}\n\n{trace}", file=sys.stderr)
-    finally:
-        return link
+def get_full_page_screenshot_chromium(driver):
+    #get window size
+    page_rect = driver.execute_cdp_cmd("Page.getLayoutMetrics", {})
+    # parameters needed for full page screenshot
+    # note we are setting the width and height of the viewport to screenshot, same as the site's content size
+    screenshot_config = {
+        'captureBeyondViewport': True,
+        'fromSurface': True,
+        'format': "png",
+        'clip': {
+            'x': 0,
+            'y': 0,
+            'width': page_rect['contentSize']['width'],
+            'height': page_rect['contentSize']['height'],
+            'scale': 1
+        },
+    }
+    # Dictionary with 1 key: data
+    base_64_png = driver.execute_cdp_cmd("Page.captureScreenshot", screenshot_config)
+    return base64.urlsafe_b64decode(base_64_png['data'])
+    # Write image to file
+    f = open("filename", "wb")
+    f.write(base64.urlsafe_b64decode(base_64_png['data']))
+    f.close()
 
 
 def save_image(report_folder, index, image):
@@ -109,7 +111,6 @@ def save_image(report_folder, index, image):
     if report_folder is not None and report_folder != '':
         folder = f"{report_folder}{os.sep}"
     filename = folder + link
-    import base64
     try:
         f = open(filename, 'wb')
         #f.write(base64.decodebytes(image))
@@ -130,35 +131,7 @@ def save_source(report_folder, index, source):
         folder = f"{report_folder}{os.sep}"
     filename = folder + link
     try:
-        f = open(filename, 'w')
-        f.write(source)
-        f.close()
-    except Exception as e:
-        trace = traceback.format_exc()
-        link = None
-        print(f"{str(e)}\n\n{trace}", file=sys.stderr)
-    finally:
-        return link
-
-
-def save_page_source_selenium(report_folder, index, driver):
-    """
-    Saves the HTML page source with TXT extension
-    in 'sources' folder under the specified folder.
-    
-    Returns:
-        str: The filename for the anchor link.
-    """
-    link = f"sources{os.sep}page-{index}.txt"
-    folder = ""
-    if report_folder is not None and report_folder != '':
-        folder = f"{report_folder}{os.sep}"
-    filename = folder + link
-    try:
-        source = driver.page_source
-        # document_root = html.fromstring(source)
-        # source = etree.tostring(document_root, encoding='unicode', pretty_print=True)
-        f = open(filename, 'w')
+        f = open(filename, 'w', encoding="utf-8")
         f.write(source)
         f.close()
     except Exception as e:
