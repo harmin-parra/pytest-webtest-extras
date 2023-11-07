@@ -1,11 +1,11 @@
 import base64
+import html
 import os
 import pathlib
 import pytest
 import shutil
 import sys
 import traceback
-from .extras import Extras 
 
 
 #
@@ -41,7 +41,7 @@ def get_folder(filepath):
     return folder
 
 
-def check_lists_length(report, item, fx_extras: Extras):
+def check_lists_length(report, item, fx_extras):
     """ Used to verify if the images, comments and page sources lists have coherent lenghts. """
     message = ('"images", "comments" and/or "sources" lists have incoherent lengths. '
                "Screenshots won't be logged for this test.")
@@ -215,7 +215,7 @@ def append_header(call, report, extras, pytest_html,
 
 def escape_html(text):
     """ Escapes the '<' and '>' characters. """
-    return str(text).replace('<', "&lt;").replace('>', "&gt;")
+    return html.escape(str(text))
 
 
 def get_table_row_tag(comment, image, source, clazz="selenium_log_comment"):
