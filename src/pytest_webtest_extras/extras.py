@@ -1,3 +1,4 @@
+import html
 from . import utils
 
 
@@ -26,7 +27,7 @@ class Extras():
         self._fx_sources = fx_sources
         self._folder = report_folder
 
-    def save_screenshot(self, image: bytes, comment=None, source=None):
+    def save_screenshot(self, image: bytes, comment=None, source=None, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
         The screenshot is saved in <forder_report>/screenshots folder.
@@ -47,9 +48,10 @@ class Extras():
         self.sources.append(link_source)
         if self._fx_comments:
             comment = "" if comment is None else comment
+            comment = html.escape(comment, quote=True) if escape_html else comment
             self.comments.append(comment)
 
-    def save_screenshot_for_selenium(self, driver, comment=None, full_page=True):
+    def save_screenshot_for_selenium(self, driver, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
         
@@ -77,9 +79,9 @@ class Extras():
         source = None
         if self._fx_sources:
             source = driver.page_source
-        self.save_screenshot(image, comment, source)
+        self.save_screenshot(image, comment, source, escape_html)
 
-    def save_screenshot_for_playwright(self, page, comment=None, full_page=True):
+    def save_screenshot_for_playwright(self, page, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
         
@@ -93,4 +95,4 @@ class Extras():
         source = None
         if self._fx_sources:
             source = page.content()
-        self.save_screenshot(image, comment, source)
+        self.save_screenshot(image, comment, source, escape_html)
