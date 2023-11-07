@@ -99,10 +99,6 @@ def get_full_page_screenshot_chromium(driver):
     # Dictionary with 1 key: data
     base_64_png = driver.execute_cdp_cmd("Page.captureScreenshot", screenshot_config)
     return base64.urlsafe_b64decode(base_64_png['data'])
-    # Write image to file
-    f = open("filename", "wb")
-    f.write(base64.urlsafe_b64decode(base_64_png['data']))
-    f.close()
 
 
 def save_image(report_folder, index, image):
