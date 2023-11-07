@@ -113,7 +113,6 @@ def save_image(report_folder, index, image):
     filename = folder + link
     try:
         f = open(filename, 'wb')
-        #f.write(base64.decodebytes(image))
         f.write(image)
         f.close()
     except Exception as e:
@@ -235,9 +234,7 @@ def get_table_row_tag(comment, image, source, clazz="selenium_log_comment"):
         str: The <tr> element.
     """
     image = decorate_screenshot(image)
-    if isinstance(comment, dict):
-        comment = decorate_description(comment)
-    elif isinstance(comment, str):
+    if isinstance(comment, str):
         comment = decorate_label(comment, clazz)
     else:
         comment = ""
@@ -256,40 +253,6 @@ def get_table_row_tag(comment, image, source, clazz="selenium_log_comment"):
             f'<td class="selenium_td"><div class="selenium_td_div">{image}</div></td>'
             "</tr>"
         )
-
-
-def decorate_description(description):
-    """ Applies CSS style to a test step description. """
-    if description is None:
-        return ""
-
-    if 'comment' not in description:
-        description['comment'] = None
-    if 'url' not in description:
-        description['url'] = None
-    if 'value' not in description:
-        description['value'] = None
-    if 'locator' not in description:
-        description['locator'] = None
-    if 'attributes' not in description:
-        description['attributes'] = None
-
-    if description['comment'] is not None:
-        return decorate_label(description['comment'], "selenium_log_comment")
-    label = decorate_label(description['action'], "selenium_log_action")
-    if description['url'] is not None:
-        label += " " + decorate_label(description['url'], "selenium_log_target")
-    else:
-        if description['value'] is not None:
-            label += " " + decorate_quote() + description['value'] + decorate_quote()
-        if description['locator'] is not None or description['attributes'] is not None:
-            label += "<br/><br>"
-            if description['locator'] is not None:
-                locator = description['locator'].replace('"', decorate_quote())
-                label += "Locator: " + decorate_label(locator, "selenium_log_target") + "<br/><br>"
-            if description['attributes'] is not None:
-                label += "Attributes: " + decorate_label(description['attributes'], "selenium_log_target")
-    return decorate_label(label, "selenium_log_description")
 
 
 def decorate_label(label, clazz):
