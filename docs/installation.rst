@@ -12,7 +12,7 @@ Optional modules
 ----------------
 
 * ``selenium >= 4.11.0`` if using **Selenium**.
-* ``allure-pytest >= 2.13.2 if using **Allure**.
+* ``allure-pytest >= 2.13.2`` if using **Allure**.
 
 
 Installing pytest-webtest-extras

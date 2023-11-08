@@ -14,5 +14,6 @@ Pytest plugin to enhance pytest-html reports of webtest projects by adding scree
    :caption: Contents:
 
    installation
+   description
    user_guide
    changelog
