@@ -6,7 +6,7 @@ Usage
 Options
 =======
 
-These are the options that can be added to the `pytest.ini`` file.
+These are the options that can be added to the ``pytest.ini`` file.
 
 ----
 
