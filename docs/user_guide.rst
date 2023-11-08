@@ -17,9 +17,9 @@ The extra HTML contents that can be added are:
 
 The plugin doesn't take screenshots automatically. Explicit calls need to be make to this plugin API.
 
-The plugin integrates with **Selenium** and **`Playwright <https://playwright.dev/python/>`_**. Theoretically the plugin can also integrate with other Python webtest tools by means of a generic method to add the extra content.
+The plugin integrates with **Selenium** and `Playwright <https://playwright.dev/python/>`_. Theoretically the plugin can also integrate with other Python webtest tools by means of a generic method to add the extra content.
 
-This plugin also integrates with **`Allure Report <https://allurereport.org/>`_**, allowing you to add the extra HTML contents in two reports at once: the pytest-html report and the Allure report.
+This plugin also integrates with `Allure Report <https://allurereport.org/>`_, allowing you to add the extra HTML contents in two reports at once: the pytest-html report and the Allure report.
 
 Docstring of tests are also included in the report, as mean to provide a long description of tests.
 Therefore, you are highly encouraged to document your tests with docstrings.
@@ -83,18 +83,6 @@ The HTML tag for the test description (test docstring).
 Accepted values: ``h1``, ``h2``, ``h3``, ``p`` or ``pre``
 
 Default value: ``h2``
-
-
-Screenshot gathering
-====================
-
-The plugin provides a function scoped ``report_extras`` fixture with the following methods:
-
-* save_screenshot_for_selenium(driver: WebDriver, comment: str = None, full_page: bool = True)
-
-* save_screenshot_for_playwright(page: Page, comment: str = None, full_page: bool = True)
-
-* save_screenshot(image: bytes, comment: str = None, source: str = None)
 
 
 API
@@ -275,8 +263,8 @@ Sample CSS file
 Sample reports
 ==============
 
-.. image:: example1.png
+.. image:: demo-pytest.png
 
 ----
 
-.. image:: example2.png
+.. image:: demo-allure.png
