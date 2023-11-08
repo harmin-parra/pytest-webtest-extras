@@ -141,7 +141,7 @@ def pytest_runtest_makereport(item, call):
         sources = report_extras.sources
         comments = report_extras.comments
 
-        # Append test description and execution exception trace, if any.
+        # Append test description and execution exception trace, if any
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
@@ -151,6 +151,7 @@ def pytest_runtest_makereport(item, call):
         if not utils.check_lists_length(report, item, report_extras):
             return
 
+        # Generate HTML code for the extras to be added in the report
         links = ""
         rows = ""
         if screenshots == "all":
@@ -182,6 +183,7 @@ def pytest_runtest_makereport(item, call):
             )
             extras.append(pytest_html.extras.html(rows))
         report.extras = extras
+
         # Check if there was a screenshot gathering failure
         if screenshots != 'none':
             for image in images:
@@ -190,6 +192,7 @@ def pytest_runtest_makereport(item, call):
                     utils.log_error_message(report, item, message)
                     break
 
+        # Add comments to Allure report
         if include_allure is True:
             str_comments = ""
             import allure

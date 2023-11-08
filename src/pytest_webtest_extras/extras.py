@@ -34,10 +34,12 @@ class Extras:
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
         The screenshot is saved in <forder_report>/screenshots folder.
         The webpage source is saved in <forder_report>/sources folder.
+        Adds the screenshot and source to Allure report, if applicable.
         
         image (bytes): The screenshot.
         comment (str): The comment of the screenshot.
         source (str): The webpage source code.
+        escape_html (str): Whether to escape HTML characters in the comment.
         """
         if self._fx_screenshots == 'none':
             return
@@ -53,6 +55,7 @@ class Extras:
             comment = html.escape(comment, quote=True) if escape_html else comment
             self.comments.append(comment)
 
+        # Add screenshot and source to Allure report
         if self._fx_allure:
             import allure
             filename = f"image-{index}"
