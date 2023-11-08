@@ -91,6 +91,8 @@ class Extras:
                         image = driver.get_screenshot_as_png()
                 else:
                     image = driver.get_screenshot_as_png()
+        else:
+            image = driver.get_screenshot_as_png()
         source = None
         if self._fx_sources:
             source = driver.page_source
