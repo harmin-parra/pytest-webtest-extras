@@ -263,8 +263,10 @@ Sample CSS file
 Sample reports
 ==============
 
+* Pytest sample report
+
 .. image:: demo-pytest.png
 
-----
+* Allure sample report
 
 .. image:: demo-allure.png
