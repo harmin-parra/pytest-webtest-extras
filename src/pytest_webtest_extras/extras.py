@@ -14,7 +14,7 @@ def counter():
     return count
 
 
-class Extras():
+class Extras:
     """
     Class to hold pytest-html 'extras' to be added for each test in the HTML report.
     """
@@ -59,7 +59,7 @@ class Extras():
             # If there was an error taking the screenshot?
             if "error.png" in link_image:
                 filename = "screenshot error"
-                # Lets attach a 1x1 white pixel as image instead
+                # Let's attach a 1x1 white pixel as image instead
                 image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
                 image = base64.b64decode(image.encode())
             allure.attach(image, name=filename, attachment_type=allure.attachment_type.PNG)
@@ -74,9 +74,9 @@ class Extras():
         comment (str): The comment for the screenshot to take.
         full_page (bool): Whether to take a full-page screenshot. Defaults to True.
         """
-        from selenium.webdriver.chrome.webdriver   import WebDriver as WebDriver_Chrome
+        from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
         from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
-        from selenium.webdriver.edge.webdriver     import WebDriver as WebDriver_Edge
+        from selenium.webdriver.edge.webdriver import WebDriver as WebDriver_Edge
 
         if self._fx_screenshots == 'none':
             return
@@ -89,8 +89,8 @@ class Extras():
                         image = utils.get_full_page_screenshot_chromium(driver)
                     except:
                         image = driver.get_screenshot_as_png()
-        else:
-            image = driver.get_screenshot_as_png()
+                else:
+                    image = driver.get_screenshot_as_png()
         source = None
         if self._fx_sources:
             source = driver.page_source

@@ -80,7 +80,7 @@ def create_assets(report_folder):
 # Persistence functions
 #
 def get_full_page_screenshot_chromium(driver):
-    #get window size
+    # get window size
     page_rect = driver.execute_cdp_cmd("Page.getLayoutMetrics", {})
     # parameters needed for full page screenshot
     # note we are setting the width and height of the viewport to screenshot, same as the site's content size
