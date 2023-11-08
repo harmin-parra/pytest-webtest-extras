@@ -29,6 +29,12 @@ def pytest_addoption(parser):
         help="Whether to include webpage sources."
     )
     parser.addini(
+        "extras_allure",
+        type="bool",
+        default=True,
+        help="Whether to attach extras to allure."
+    )
+    parser.addini(
         "extras_description_tag",
         type="string",
         default="h2",
@@ -76,6 +82,11 @@ def sources(request):
 
 
 @pytest.fixture(scope='session')
+def include_allure(request):
+    return request.config.getini("extras_allure")
+
+
+@pytest.fixture(scope='session')
 def check_options(request, report_folder):
     utils.check_html_option(report_folder)
     utils.create_assets(report_folder)
@@ -85,8 +96,8 @@ def check_options(request, report_folder):
 # Test fixture
 #
 @pytest.fixture(scope='function')
-def report_extras(request, report_folder, screenshots, comments, sources, check_options):
-    return Extras(report_folder, screenshots, comments, sources)
+def report_extras(request, report_folder, screenshots, comments, sources, check_options, include_allure):
+    return Extras(report_folder, screenshots, comments, sources, include_allure)
 
 
 #
@@ -124,10 +135,11 @@ def pytest_runtest_makereport(item, call):
         report_extras = feature_request.getfixturevalue("report_extras")
         description_tag = feature_request.getfixturevalue("description_tag")
         screenshots = feature_request.getfixturevalue("screenshots")
+        log_comments = feature_request.getfixturevalue("comments")
+        include_allure = feature_request.getfixturevalue("include_allure")
         images = report_extras.images
         sources = report_extras.sources
         comments = report_extras.comments
-        log_comments = feature_request.getfixturevalue("comments")
 
         # Append test description and execution exception trace, if any.
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
@@ -177,3 +189,16 @@ def pytest_runtest_makereport(item, call):
                     message = "Failed to gather screenshot(s)"
                     utils.log_error_message(report, item, message)
                     break
+
+        if include_allure is True:
+            str_comments = ""
+            import allure
+            for i in range(len(images)):
+                try:
+                    index = images[i].rindex('-')
+                    suffix = "image" + images[i][index:-4]
+                except:
+                    suffix = "screenshot error"
+                if comments[i] not in (None, ''):
+                    str_comments += f"{suffix} > {comments[i]}\n\n"
+            allure.attach(str_comments, name="comments", attachment_type=allure.attachment_type.TEXT)

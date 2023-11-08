@@ -1,3 +1,4 @@
+import base64
 import html
 from . import utils
 
@@ -18,7 +19,7 @@ class Extras():
     Class to hold pytest-html 'extras' to be added for each test in the HTML report.
     """
 
-    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources):
+    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources, fx_allure):
         self.images = []
         self.sources = []
         self.comments = []
@@ -26,6 +27,7 @@ class Extras():
         self._fx_comments = fx_comments
         self._fx_sources = fx_sources
         self._folder = report_folder
+        self._fx_allure = fx_allure
 
     def save_screenshot(self, image: bytes, comment=None, source=None, escape_html=True):
         """
@@ -50,6 +52,19 @@ class Extras():
             comment = "" if comment is None else comment
             comment = html.escape(comment, quote=True) if escape_html else comment
             self.comments.append(comment)
+
+        if self._fx_allure:
+            import allure
+            filename = f"image-{index}"
+            # If there was an error taking the screenshot?
+            if "error.png" in link_image:
+                filename = "screenshot error"
+                # Lets attach a 1x1 white pixel as image instead
+                image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
+                image = base64.b64decode(image.encode())
+            allure.attach(image, name=filename, attachment_type=allure.attachment_type.PNG)
+            if source is not None:
+                allure.attach(source, name=f"page-{index}", attachment_type=allure.attachment_type.TEXT)
 
     def save_screenshot_for_selenium(self, driver, comment=None, full_page=True, escape_html=True):
         """
