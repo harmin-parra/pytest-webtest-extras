@@ -17,9 +17,12 @@ The extra HTML contents that can be added are:
 
 The plugin doesn't take screenshots automatically. Explicit calls need to be make to this plugin API.
 
-The plugin integrates with `Selenium <https://www.selenium.dev/>`_ and `Playwright <https://playwright.dev/python/>`_. Theoretically the plugin can also integrate with other Python webtest tools by means of a generic method to add the extra content.
+The plugin integrates with:
+* `Selenium <https://www.selenium.dev/>`_
+* `Playwright <https://playwright.dev/python/>`_
+* `Allure Report <https://allurereport.org/>`_
 
-This plugin also integrates with `Allure Report <https://allurereport.org/>`_, allowing you to add the extra HTML contents in two reports at once: the pytest-html report and the Allure report.
+Theoretically the plugin can also integrate with other Python webtest tools by means of a generic method to add the extra content to the pytest-html report.
 
 Docstring of tests are also included in the report, as mean to provide a long description of tests.
 Therefore, you are highly encouraged to document your tests with docstrings.
@@ -38,7 +41,7 @@ Options via pytest.ini file
 
 * ``extras_screenshots``
 
-The screenshots to add to the report.
+The screenshots to add in the report.
 
 Accepted values:
 
