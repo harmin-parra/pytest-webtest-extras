@@ -6,7 +6,7 @@ Usage
 Options
 =======
 
-These are the options that can be added to the pytest.ini file.
+These are the options that can be added to the `pytest.ini`` file.
 
 ----
 
@@ -103,8 +103,6 @@ Example
 | Therefore, the ``--html`` option also needs to be provided.
 
 An external CSS file needs be provided by using the **pytest-html** ``--css`` command-line option.
-
-Other options can be provided via the ``pytest.ini`` file.
 
 
 Command-line invocation
