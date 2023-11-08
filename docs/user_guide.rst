@@ -2,12 +2,13 @@
 Usage
 =====
 
+
 Options
 =======
 
+These are the options that can be added to the pytest.ini file.
 
-Options via pytest.ini file
----------------------------
+----
 
 * ``extras_screenshots``
 
