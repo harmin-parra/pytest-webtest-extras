@@ -112,6 +112,12 @@ Command-line invocation
 
   pytest --html=/path/to/report --css=/path/to/css
 
+If using Allure report:
+
+.. code-block:: bash
+
+  pytest --html=/path/to/report --css=/path/to/css --alluredir allure-results
+
 
 Sample ``pytest.ini`` file
 --------------------------
@@ -121,7 +127,7 @@ Sample ``pytest.ini`` file
   extras_screenshots = all
   extras_comments = True
   extras_sources = False
-  extras_allure = True
+  extras_allure = False
 
 
 Sample code
