@@ -109,7 +109,7 @@ def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin('html')
     outcome = yield
     report = outcome.get_result()
-    extras = getattr(report, 'extra', [])
+    extras = getattr(report, 'extras', [])
 
     # Let's deal with the HTML report
     if report.when == 'call':
@@ -144,11 +144,11 @@ def pytest_runtest_makereport(item, call):
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
-            report.extra = extras
+            report.extras = extras
             return
 
         if not utils.check_lists_length(report, item, report_extras):
-            report.extra = extras
+            report.extras = extras
             return
 
         # Generate HTML code for the extras to be added in the report
@@ -182,7 +182,7 @@ def pytest_runtest_makereport(item, call):
                 "</table>"
             )
             extras.append(pytest_html.extras.html(rows))
-        report.extra = extras
+        report.extras = extras
 
         # Check if there was a screenshot gathering failure
         if screenshots != 'none':
