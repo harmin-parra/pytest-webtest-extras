@@ -15,7 +15,7 @@ The extra HTML contents that can be added are:
 
 The plugin doesn't take screenshots automatically. Explicit calls need to be make to the plugin API.
 
-The **pytest-webtest-extras** integrates with:
+**pytest-webtest-extras** integrates with:
 
 * `Selenium <https://www.selenium.dev/>`_
 
