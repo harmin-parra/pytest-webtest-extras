@@ -109,7 +109,7 @@ def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin('html')
     outcome = yield
     report = outcome.get_result()
-    extras = getattr(report, 'extras', [])
+    extras = getattr(report, 'extra', [])
 
     # Let's deal with the HTML report
     if report.when == 'call':
@@ -145,16 +145,16 @@ def pytest_runtest_makereport(item, call):
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
-            report.extras = extras
+            report.extra = extras
             return
 
         if not utils.check_lists_length(report, item, report_extras):
-            report.extras = extras
+            report.extra = extras
             return
 
         # Generate HTML code for the extras to be added in the report
-        links = ""
-        rows = ""
+        links = ""  # Used when logging without comments
+        rows = ""   # Used when logging with comments
         if screenshots == "all":
             if not log_comments:
                 for i in range(len(images)):
@@ -183,7 +183,7 @@ def pytest_runtest_makereport(item, call):
                 "</table>"
             )
             extras.append(pytest_html.extras.html(rows))
-        report.extras = extras
+        report.extra = extras
 
         # Check if there was a screenshot gathering failure
         if screenshots != 'none':
@@ -192,17 +192,3 @@ def pytest_runtest_makereport(item, call):
                     message = "Failure gathering screenshot(s)"
                     utils.log_error_message(report, item, message)
                     break
-
-        # Add comments to Allure report
-        if include_allure is True:
-            str_comments = ""
-            import allure
-            for i in range(len(images)):
-                try:
-                    index = images[i].rindex('-')
-                    suffix = "image" + images[i][index:-4]
-                except:
-                    suffix = "screenshot error"
-                if comments[i] not in (None, ''):
-                    str_comments += f"{suffix} > {comments[i]}\n\n"
-            allure.attach(str_comments, name="comments", attachment_type=allure.attachment_type.TEXT)
