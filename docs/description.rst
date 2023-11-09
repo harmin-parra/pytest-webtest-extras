@@ -13,7 +13,7 @@ The extra HTML contents that can be added are:
 
 * Source of the webpage where the screenshot was taken.
 
-The plugin doesn't take screenshots automatically. Explicit calls need to be make to the plugin API.
+The plugin doesn't take screenshots automatically. Explicit calls need to be made to the plugin API.
 
 **pytest-webtest-extras** integrates with:
 
