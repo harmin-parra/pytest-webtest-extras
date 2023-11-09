@@ -37,7 +37,7 @@ class Extras:
         The webpage source is saved in <forder_report>/sources folder.
         Adds the screenshot and source to Allure report, if applicable.
         
-        image bytes|str: The screenshot as bytes or base64 string.
+        image (bytes | str): The screenshot as bytes or base64 string.
         comment (str): The comment of the screenshot.
         source (str): The webpage source code.
         escape_html (bool): Whether to escape HTML characters in the comment.

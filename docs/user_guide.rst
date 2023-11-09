@@ -81,7 +81,7 @@ The function scoped fixture ``report_extras`` provides the following methods:
   )
   
   save_screenshot(
-      image: bytes|str,    # The screenshot as bytes or base64 string.
+      image: bytes | str,  # The screenshot as bytes or base64 string.
       comment: str = None,
       source: str = None,  # The webpage source
       escape_html: bool = True
