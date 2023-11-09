@@ -41,7 +41,7 @@ def get_folder(filepath):
     return folder
 
 
-def check_lists_length(report, item, fx_extras):
+def check_lists_length(report, fx_extras):
     """ Used to verify if the images, comments and page sources lists have coherent lenghts. """
     message = ('"images", "comments" and/or "sources" lists have incoherent lengths. '
                "Screenshots won't be logged for this test.")
@@ -54,7 +54,7 @@ def check_lists_length(report, item, fx_extras):
         len(fx_extras.sources) == max_length
     ):
         return True
-    log_error_message(report, item, message)
+    log_error_message(report, message)
     return False
 
 
