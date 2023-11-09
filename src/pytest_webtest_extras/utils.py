@@ -291,7 +291,7 @@ def decorate_quote():
     return decorate_label('"', "extras_log_quote")
 
 
-def log_error_message(report, item, message):
+def log_error_message(report, message):
     """ Appends error message in stderr section of a test report. """
     try:
         i = -1
