@@ -1,0 +1,15 @@
+.project
+.pydevproject
+.settings/
+.idea
+
+.mypy_cache/
+.pytest_cache/
+
+**/__pycache__
+**/*.pyc
+
+dist/
+docs/_build
+test/
+
