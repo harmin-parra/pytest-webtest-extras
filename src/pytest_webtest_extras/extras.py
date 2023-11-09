@@ -1,5 +1,6 @@
 import base64
 import html
+from typing import Union
 from . import utils
 
 
@@ -29,21 +30,26 @@ class Extras:
         self._folder = report_folder
         self._fx_allure = fx_allure
 
-    def save_screenshot(self, image: bytes, comment=None, source=None, escape_html=True):
+    def save_screenshot(self, image: Union[bytes, str], comment=None, source=None, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
         The screenshot is saved in <forder_report>/screenshots folder.
         The webpage source is saved in <forder_report>/sources folder.
         Adds the screenshot and source to Allure report, if applicable.
         
-        image (bytes): The screenshot.
+        image bytes|str: The screenshot as bytes or base64 string.
         comment (str): The comment of the screenshot.
         source (str): The webpage source code.
-        escape_html (str): Whether to escape HTML characters in the comment.
+        escape_html (bool): Whether to escape HTML characters in the comment.
         """
         if self._fx_screenshots == 'none':
             return
         index = counter()
+        if isinstance(image, str):
+            try:
+                image = base64.b64decode(image.encode())
+            except:
+                image = None
         link_image = utils.save_image(self._folder, index, image)
         self.images.append(link_image)
         link_source = None
@@ -55,19 +61,21 @@ class Extras:
             comment = html.escape(comment, quote=True) if escape_html else comment
         self.comments.append(comment)
 
-        # Add screenshot and source to Allure report
+        # Add extras to Allure report
         if self._fx_allure:
             import allure
             filename = f"image-{index}"
             # If there was an error taking the screenshot?
             if "error.png" in link_image:
-                filename = "screenshot error"
+                filename += " (screenshot error)"
                 # Let's attach a 1x1 white pixel as image instead
                 image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
                 image = base64.b64decode(image.encode())
             allure.attach(image, name=filename, attachment_type=allure.attachment_type.PNG)
+            if comment is not None and self._fx_comments:
+                allure.attach(comment, name=f"comment-{index}", attachment_type=allure.attachment_type.TEXT)
             if source is not None:
-                allure.attach(source, name=f"page-{index}", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(source, name=f"source-{index}", attachment_type=allure.attachment_type.TEXT)
 
     def save_screenshot_for_selenium(self, driver, comment=None, full_page=True, escape_html=True):
         """
