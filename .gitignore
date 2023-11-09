@@ -10,6 +10,4 @@
 **/*.pyc
 
 dist/
-docs/_build
 test/
-
