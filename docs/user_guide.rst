@@ -93,7 +93,7 @@ Limitations
 
 No support for any kind of parallel tests execution (multi-treads, multi-tabs or multi-windows).
 
-For **Playwright**, only the ``sync_api`` is supported.
+For **Playwright**, only ``sync_api`` is supported.
 
 
 Example
