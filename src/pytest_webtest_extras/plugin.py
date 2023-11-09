@@ -147,7 +147,7 @@ def pytest_runtest_makereport(item, call):
             report.extras = extras
             return
 
-        if not utils.check_lists_length(report, item, report_extras):
+        if not utils.check_lists_length(report, report_extras):
             report.extras = extras
             return
 
