@@ -42,8 +42,8 @@ def get_folder(filepath):
 
 
 def check_lists_length(report, fx_extras):
-    """ Used to verify if the images, comments and page sources lists have coherent lenghts. """
-    message = ('"images", "comments" and/or "sources" lists have incoherent lengths. '
+    """ Used to verify if the images, comments and page sources lists have the same lenght """
+    message = ('"images", "comments" and "sources" lists don\'t have the same length. '
                "Screenshots won't be logged for this test.")
     max_length = len(fx_extras.images)
     max_length = len(fx_extras.comments) if len(fx_extras.comments) > max_length else max_length
