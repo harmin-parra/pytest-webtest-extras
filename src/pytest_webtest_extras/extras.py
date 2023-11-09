@@ -53,7 +53,7 @@ class Extras:
         if self._fx_comments:
             comment = "" if comment is None else comment
             comment = html.escape(comment, quote=True) if escape_html else comment
-            self.comments.append(comment)
+        self.comments.append(comment)
 
         # Add screenshot and source to Allure report
         if self._fx_allure:

@@ -48,12 +48,12 @@ def check_lists_length(report, item, fx_extras):
     max_length = len(fx_extras.images)
     max_length = len(fx_extras.comments) if len(fx_extras.comments) > max_length else max_length
     max_length = len(fx_extras.sources) if len(fx_extras.sources) > max_length else max_length
-    if len(fx_extras.images) == max_length:
-        if (
-            len(fx_extras.comments) in (max_length, 0) and
-            len(fx_extras.sources) in (max_length, 0)
-        ):
-            return True
+    if (
+        len(fx_extras.images) == max_length and
+        len(fx_extras.comments) == max_length and
+        len(fx_extras.sources) == max_length
+    ):
+        return True
     log_error_message(report, item, message)
     return False
 

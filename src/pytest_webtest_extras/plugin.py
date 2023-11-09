@@ -141,7 +141,7 @@ def pytest_runtest_makereport(item, call):
         sources = report_extras.sources
         comments = report_extras.comments
 
-        # Append test description and execution exception trace, if any
+        # Append test description and execution exception trace, if any.
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
@@ -149,6 +149,7 @@ def pytest_runtest_makereport(item, call):
             return
 
         if not utils.check_lists_length(report, item, report_extras):
+            report.extras = extras
             return
 
         # Generate HTML code for the extras to be added in the report
@@ -188,7 +189,7 @@ def pytest_runtest_makereport(item, call):
         if screenshots != 'none':
             for image in images:
                 if image == f"screenshots{os.sep}error.png":
-                    message = "Failed to gather screenshot(s)"
+                    message = "Failure gathering screenshot(s)"
                     utils.log_error_message(report, item, message)
                     break
 
