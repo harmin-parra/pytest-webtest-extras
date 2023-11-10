@@ -116,24 +116,6 @@ def pytest_runtest_makereport(item, call):
         return
 
     if report.when == 'call':
-        # Get function/method description
-        pkg = item.location[0].replace(os.sep, '.')[:-3]
-        index = pkg.rfind('.')
-        module = importlib.import_module(package=pkg[:index], name=pkg[index + 1:])
-        # Is the called test a function ?
-        match_cls = re.search(r"^[^\[]*\.", item.location[2])
-        if match_cls is None:
-            func = getattr(module, item.originalname)
-        else:
-            cls = getattr(module, match_cls[0][:-1])
-            func = getattr(cls, item.originalname)
-        description = getattr(func, "__doc__")
-
-        # Is the test item using the 'extras' fixtures?
-        if not ("request" in item.funcargs and "report_extras" in item.funcargs):
-            return
-        feature_request = item.funcargs['request']
-
         # Get test fixture values
         feature_request = item.funcargs['request']
         report_extras = feature_request.getfixturevalue("report_extras")
@@ -145,6 +127,7 @@ def pytest_runtest_makereport(item, call):
         comments = report_extras.comments
 
         # Append test description and execution exception trace, if any.
+        description = item.function.__doc__ if hasattr(item, 'function') else None
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
