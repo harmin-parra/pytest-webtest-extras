@@ -111,7 +111,10 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     extras = getattr(report, 'extras', [])
 
-    # Let's deal with the HTML report
+    # Is the test item using the 'report_extras' fixtures?
+    if not ("request" in item.funcargs and "report_extras" in item.funcargs):
+        return
+
     if report.when == 'call':
         # Get function/method description
         pkg = item.location[0].replace(os.sep, '.')[:-3]
@@ -132,6 +135,7 @@ def pytest_runtest_makereport(item, call):
         feature_request = item.funcargs['request']
 
         # Get test fixture values
+        feature_request = item.funcargs['request']
         report_extras = feature_request.getfixturevalue("report_extras")
         description_tag = feature_request.getfixturevalue("description_tag")
         screenshots = feature_request.getfixturevalue("screenshots")
