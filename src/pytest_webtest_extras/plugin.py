@@ -1,7 +1,5 @@
-import importlib
 import os
 import pytest
-import re
 from . import utils
 from .extras import Extras
 
