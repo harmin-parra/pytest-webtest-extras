@@ -165,7 +165,7 @@ def append_header(call, report, extras, pytest_html,
     ):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f"<span style='color:black;'>{escape_html(call.excinfo.typename)}</span>"
+            f'<span class="extras_exception_name">{escape_html(call.excinfo.typename)}</span>'
             f" reason = {escape_html(call.excinfo.value.msg)}"
             "</pre>"
             )
@@ -174,7 +174,7 @@ def append_header(call, report, extras, pytest_html,
     if report.skipped and hasattr(report, 'wasxfail'):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            "<span style='color:black;'>XFailed</span>"
+            f'<span class="extras_exception_name">XFailed</span>'
             f" reason = {escape_html(report.wasxfail)}"
             "</pre>"
             )
@@ -183,7 +183,7 @@ def append_header(call, report, extras, pytest_html,
     if report.passed and hasattr(report, 'wasxfail'):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            "<span style='color:black;'>XPassed</span>"
+            f'<span class="extras_exception_name">XPassed</span>'
             f" reason = {escape_html(report.wasxfail)}"
             "</pre>"
             )
@@ -200,7 +200,7 @@ def append_header(call, report, extras, pytest_html,
     ):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f"<span style='color:black;'>{escape_html(call.excinfo.typename)}</span>"
+            f'<span class="extras_exception_name">{escape_html(call.excinfo.typename)}</span>'
             f" {escape_html(call.excinfo._excinfo[1])}"
             "</pre>"
             )
