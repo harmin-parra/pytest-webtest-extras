@@ -201,6 +201,10 @@ Sample CSS file
       color: #999;
   }
 
+  .extras_exception_name {
+      color: black;
+  }
+
   .extras_log_comment {
       font-family: monospace;
       color: maroon;
