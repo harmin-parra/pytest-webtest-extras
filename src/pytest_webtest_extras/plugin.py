@@ -169,7 +169,7 @@ def pytest_runtest_makereport(item, call):
             extras.append(pytest_html.extras.html(rows))
         report.extras = extras
 
-        # Check if there was a screenshot gathering failure
+        # Log error message if there was a screenshot gathering failure
         if screenshots != 'none':
             for image in images:
                 if image == f"screenshots{os.sep}error.png":
