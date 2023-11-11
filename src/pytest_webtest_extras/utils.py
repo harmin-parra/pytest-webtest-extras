@@ -45,14 +45,11 @@ def check_lists_length(report, fx_extras):
     """ Used to verify if the images, comments and page sources lists have the same lenght """
     message = ('"images", "comments" and "sources" lists don\'t have the same length. '
                "Screenshots won't be logged for this test in pytest-html report.")
-    if (
-        len(fx_extras.images) == len(fx_extras.comments) and
-        len(fx_extras.images) == len(fx_extras.sources)
-    ):
-        return True
-    else:
+    if not (len(fx_extras.images) == len(fx_extras.comments) == len(fx_extras.sources)):
         log_error_message(report, message)
         return False
+    else:
+        return True
 
 
 def create_assets(report_folder):
@@ -90,7 +87,7 @@ def get_full_page_screenshot_chromium(driver):
             'y': 0,
             'width': page_rect['contentSize']['width'],
             'height': page_rect['contentSize']['height'],
-            'scale': 1
+            'scale': 1,
         },
     }
     # Dictionary with 1 key: data
@@ -206,7 +203,7 @@ def append_header(call, report, extras, pytest_html,
 
 
 def escape_html(text):
-    """ Escapes the '<' and '>' characters. """
+    """ Escapes HTML characters in a text. """
     return html.escape(str(text))
 
 
