@@ -172,10 +172,6 @@ Sample CSS file
 
 .. code-block:: css
 
-  .logwrapper {
-      max-height: 100px;
-  }
-
   .extras_separator {
       height:2px;
       background-color: gray;
@@ -204,29 +200,6 @@ Sample CSS file
   .extras_log_comment {
       font-family: monospace;
       color: maroon;
-  }
-
-  .extras_log_description {
-      font-family: monospace;
-      color: black;
-  }
-
-  .extras_log_action {
-      font-weight: bold;
-      color: black;
-  }
-
-  .extras_log_target {
-      color: blue;
-  }
-
-  .extras_log_quote {
-      font-weight: bold;
-      color: black;
-  }
-
-  .extras_log_fatal {
-      color: red;
   }
 
   .extras_log_img {
