@@ -206,27 +206,9 @@ Sample CSS file
       color: maroon;
   }
 
-  .extras_log_description {
-      font-family: monospace;
-      color: black;
-  }
-
-  .extras_log_action {
-      font-weight: bold;
-      color: black;
-  }
-
-  .extras_log_target {
-      color: blue;
-  }
-
   .extras_log_quote {
       font-weight: bold;
       color: black;
-  }
-
-  .extras_log_fatal {
-      color: red;
   }
 
   .extras_log_img {
