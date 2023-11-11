@@ -172,10 +172,6 @@ Sample CSS file
 
 .. code-block:: css
 
-  .logwrapper {
-      max-height: 100px;
-  }
-
   .extras_separator {
       height:2px;
       background-color: gray;
