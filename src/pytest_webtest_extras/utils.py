@@ -146,7 +146,7 @@ def append_header(call, report, extras, pytest_html,
     Appends the description and the test execution exception trace, if any, to a test report.
     
     Args:
-        description (str): The test file docstring.
+        description (str): The test function docstring.
         
         description_tag (str): The HTML tag to use.
     """
