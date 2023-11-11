@@ -205,7 +205,7 @@ def append_header(call, report, extras, pytest_html,
             "</pre>"
             )
         )
-    # extras.append(pytest_html.extras.html("<br>"))
+    report.extras = extras
 
 
 def escape_html(text):

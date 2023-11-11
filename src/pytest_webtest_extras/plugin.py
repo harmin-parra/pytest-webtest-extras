@@ -131,11 +131,9 @@ def pytest_runtest_makereport(item, call):
         utils.append_header(call, report, extras, pytest_html, description, description_tag)
 
         if screenshots == "none" or len(images) == 0:
-            report.extras = extras
             return
 
         if not utils.check_lists_length(report, report_extras):
-            report.extras = extras
             return
 
         # Generate HTML code for the extras to be added in the report
