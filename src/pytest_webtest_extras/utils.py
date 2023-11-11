@@ -41,9 +41,9 @@ def get_folder(filepath):
     return folder
 
 
-def check_lists_length(report, fx_extras):
-    """ Used to verify if the images, comments and page sources lists have the same lenght """
-    message = ('"images", "comments" and "sources" lists don\'t have the same length. '
+def check_lists_length(report, item, fx_extras):
+    """ Used to verify if the images, comments and page sources lists have coherent lenghts. """
+    message = ('"images", "comments" and/or "sources" lists have incoherent lengths. '
                "Screenshots won't be logged for this test.")
     max_length = len(fx_extras.images)
     max_length = len(fx_extras.comments) if len(fx_extras.comments) > max_length else max_length
@@ -54,7 +54,7 @@ def check_lists_length(report, fx_extras):
         len(fx_extras.sources) == max_length
     ):
         return True
-    log_error_message(report, message)
+    log_error_message(report, item, message)
     return False
 
 
@@ -291,7 +291,7 @@ def decorate_quote():
     return decorate_label('"', "extras_log_quote")
 
 
-def log_error_message(report, message):
+def log_error_message(report, item, message):
     """ Appends error message in stderr section of a test report. """
     try:
         i = -1

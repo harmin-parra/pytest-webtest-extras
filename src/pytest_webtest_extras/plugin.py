@@ -136,6 +136,7 @@ def pytest_runtest_makereport(item, call):
         description_tag = feature_request.getfixturevalue("description_tag")
         screenshots = feature_request.getfixturevalue("screenshots")
         log_comments = feature_request.getfixturevalue("comments")
+        include_allure = feature_request.getfixturevalue("include_allure")
         images = report_extras.images
         sources = report_extras.sources
         comments = report_extras.comments
@@ -189,5 +190,5 @@ def pytest_runtest_makereport(item, call):
             for image in images:
                 if image == f"screenshots{os.sep}error.png":
                     message = "Failure gathering screenshot(s)"
-                    utils.log_error_message(report, message)
+                    utils.log_error_message(report, item, message)
                     break
