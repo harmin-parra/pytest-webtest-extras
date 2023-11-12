@@ -38,7 +38,7 @@ def getini(config, name):
 def get_folder(filepath):
     """
     Returns the folder of a filepath.
-    
+
     Args:
         filepath (str): The filepath.
     """
@@ -145,10 +145,10 @@ def append_header(call, report, extras, pytest_html,
                   description, description_tag):
     """
     Appends the description and the test execution exception trace, if any, to a test report.
-    
+
     Args:
         description (str): The test function docstring.
-        
+
         description_tag (str): The HTML tag to use.
     """
     clazz = "extras_exception"
@@ -218,14 +218,14 @@ def escape_html(text):
 def get_table_row_tag(comment, image, source):
     """
     Returns the HTML table row of a test step.
-    
+
     Args:
         comment (str): The comment of the test step.
-        
+
         image (str): The screenshot anchor element.
-        
+
         source (str): The page source anchor element.
-        
+
     Returns:
         str: The <tr> element.
     """
@@ -262,7 +262,7 @@ def decorate_label(label, clazz):
         clazz (str): The CSS class to apply.
 
     Returns:
-        The <span> element. 
+        The <span> element decorated with the CSS class.
     """
     return f'<span class="{clazz}">{label}</span>'
 

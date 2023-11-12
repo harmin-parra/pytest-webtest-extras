@@ -36,7 +36,7 @@ class Extras:
         The screenshot is saved in <forder_report>/screenshots folder.
         The webpage source is saved in <forder_report>/sources folder.
         Adds the screenshot and source to Allure report, if applicable.
-        
+
         image (bytes | str): The screenshot as bytes or base64 string.
         comment (str): The comment of the screenshot.
         source (str): The webpage source code.
@@ -65,7 +65,7 @@ class Extras:
         if self._fx_allure:
             import allure
             filename = f"image-{index}"
-            # If there was an error taking the screenshot?
+            # Was there an error taking the screenshot?
             if "error.png" in link_image:
                 filename += " (screenshot error)"
                 # Let's attach a 1x1 white pixel as image instead
@@ -80,7 +80,7 @@ class Extras:
     def save_screenshot_for_selenium(self, driver, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
-        
+
         driver (WebDriver): The webdriver.
         comment (str): The comment for the screenshot to take.
         full_page (bool): Whether to take a full-page screenshot. Defaults to True.
@@ -112,7 +112,7 @@ class Extras:
     def save_screenshot_for_playwright(self, page, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
-        
+
         page (Page): The page.
         comment (str): The comment for the screenshot to take.
         full_page (bool): Whether to take a full-page screenshot. Defaults to True.
