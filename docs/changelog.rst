@@ -3,6 +3,18 @@ Changelog
 =========
 
 
+1.1.0
+=====
+
+***Improvement**
+
+Replacement of deprecated.
+
+**Change**
+
+* Some CSS classes have been renamed.
+
+
 1.0.0
 =====
 
