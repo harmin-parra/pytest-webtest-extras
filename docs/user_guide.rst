@@ -197,21 +197,16 @@ Sample CSS file
       color: #999;
   }
 
-  .extras_exception_name {
+  .extras_exception {
       color: black;
   }
 
-  .extras_log_comment {
+  .extras_comment {
       font-family: monospace;
       color: maroon;
   }
 
-  .extras_log_quote {
-      font-weight: bold;
-      color: black;
-  }
-
-  .extras_log_img {
+  .extras_image {
       border: 1px solid black;
       width: 300px;
       height: 170px;
