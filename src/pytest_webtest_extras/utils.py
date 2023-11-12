@@ -8,6 +8,13 @@ import sys
 import traceback
 
 
+class CssClass:
+    comment = "extras_comment"
+    image = "extras_image"
+    source = "extras_page_source"
+    exception = "extras_exception"
+
+
 #
 # Auxiliary functions to check options and fixtures
 #
@@ -144,6 +151,7 @@ def append_header(call, report, extras, pytest_html,
         
         description_tag (str): The HTML tag to use.
     """
+    clazz = "extras_exception"
     # Append description
     if description is not None:
         description = escape_html(description).strip().replace('\n', "<br>")
@@ -159,7 +167,7 @@ def append_header(call, report, extras, pytest_html,
     ):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f'<span class="extras_exception_name">{escape_html(call.excinfo.typename)}</span>'
+            f'<span class="{clazz}">{escape_html(call.excinfo.typename)}</span>'
             f" reason = {escape_html(call.excinfo.value.msg)}"
             "</pre>"
             )
@@ -168,7 +176,7 @@ def append_header(call, report, extras, pytest_html,
     if report.skipped and hasattr(report, 'wasxfail'):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f'<span class="extras_exception_name">XFailed</span>'
+            f'<span class="{clazz}">XFailed</span>'
             f" reason = {escape_html(report.wasxfail)}"
             "</pre>"
             )
@@ -177,7 +185,7 @@ def append_header(call, report, extras, pytest_html,
     if report.passed and hasattr(report, 'wasxfail'):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f'<span class="extras_exception_name">XPassed</span>'
+            f'<span class="{clazz}">XPassed</span>'
             f" reason = {escape_html(report.wasxfail)}"
             "</pre>"
             )
@@ -194,7 +202,7 @@ def append_header(call, report, extras, pytest_html,
     ):
         extras.append(pytest_html.extras.html(
             "<pre>"
-            f'<span class="extras_exception_name">{escape_html(call.excinfo.typename)}</span>'
+            f'<span class="{clazz}">{escape_html(call.excinfo.typename)}</span>'
             f" {escape_html(call.excinfo._excinfo[1])}"
             "</pre>"
             )
@@ -207,7 +215,7 @@ def escape_html(text):
     return html.escape(str(text))
 
 
-def get_table_row_tag(comment, image, source, clazz="extras_log_comment"):
+def get_table_row_tag(comment, image, source):
     """
     Returns the HTML table row of a test step.
     
@@ -218,11 +226,10 @@ def get_table_row_tag(comment, image, source, clazz="extras_log_comment"):
         
         source (str): The page source anchor element.
         
-        clazz (str): The CSS class to apply.
-    
     Returns:
         str: The <tr> element.
     """
+    clazz = "extras_comment"
     image = decorate_screenshot(image)
     if isinstance(comment, str):
         comment = decorate_label(comment, clazz)
@@ -248,12 +255,12 @@ def get_table_row_tag(comment, image, source, clazz="extras_log_comment"):
 def decorate_label(label, clazz):
     """
     Applies a CSS style to a text.
-    
+
     Args:
         label (str): The text to decorate.
-        
+
         clazz (str): The CSS class to apply.
-    
+
     Returns:
         The <span> element. 
     """
@@ -270,19 +277,16 @@ def decorate_anchors(image, source):
         return image
 
 
-def decorate_screenshot(filename, clazz="extras_log_img"):
+def decorate_screenshot(filename):
     """ Applies CSS style to a screenshot anchor element. """
+    clazz = "extras_image"
     return f'<a href="{filename}" target="_blank"><img src ="{filename}" class="{clazz}"></a>'
 
 
-def decorate_page_source(filename, clazz="extras_page_src"):
+def decorate_page_source(filename):
     """ Applies CSS style to a page source anchor element. """
+    clazz = "extras_page_src"
     return f'<a href="{filename}" target="_blank" class="{clazz}">[page source]</a>'
-
-
-def decorate_quote():
-    """ Applies CSS style to a quotation. """
-    return decorate_label('"', "extras_log_quote")
 
 
 def log_error_message(report, message):
