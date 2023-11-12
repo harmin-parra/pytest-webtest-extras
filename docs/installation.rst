@@ -22,3 +22,13 @@ Installing pytest-webtest-extras
 .. code-block:: bash
 
   $ pip install pytest-webtest-extras
+
+Support for older pytest-html versions
+--------------------------------------
+
+If ``pytest-html <= 3.2.0``
+
+.. code-block:: bash
+
+  $ pip install pytest-webtest-extras==1.0.0
+ 
