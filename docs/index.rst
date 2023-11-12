@@ -16,4 +16,5 @@ Pytest plugin to enhance pytest-html reports of webtest projects by adding scree
    installation
    description
    user_guide
+   migration
    changelog
