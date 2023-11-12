@@ -6,7 +6,7 @@ Requirements
 ------------
 
 * ``pytest >= 7.0.0``
-* ``pytest-html >= 3.2.0``
+* ``pytest-html >= 4.0.0``
 
 Optional modules
 ----------------
