@@ -8,7 +8,7 @@ Changelog
 
 **Improvement**
 
-Replacement of deprecated.
+Replacement of deprecated code.
 
 **Change**
 
