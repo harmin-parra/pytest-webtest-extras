@@ -141,7 +141,7 @@ Sample code
       """
       This is a test using Selenium
       """
-      driver = WebDriver_Chrome()
+      driver = WebDriver()
       driver.get("https://www.selenium.dev/selenium/web/web-form.html")
       report_extras.save_screenshot_for_selenium(driver, "Get the webpage to test", full_page=False)
       driver.find_element(By.ID, "my-text-id").send_keys("Hello World!")
