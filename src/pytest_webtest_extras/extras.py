@@ -64,6 +64,10 @@ class Extras:
         # Add extras to Allure report
         if self._fx_allure:
             import allure
+            # Attach the comment
+            if comment is not None and self._fx_comments:
+                allure.attach(comment, name=f"comment-{index}", attachment_type=allure.attachment_type.TEXT)
+            # Attach the image
             filename = f"image-{index}"
             # Was there an error taking the screenshot?
             if "error.png" in link_image:
@@ -72,8 +76,7 @@ class Extras:
                 image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
                 image = base64.b64decode(image.encode())
             allure.attach(image, name=filename, attachment_type=allure.attachment_type.PNG)
-            if comment is not None and self._fx_comments:
-                allure.attach(comment, name=f"comment-{index}", attachment_type=allure.attachment_type.TEXT)
+            # Attach the webpage source
             if source is not None:
                 allure.attach(source, name=f"source-{index}", attachment_type=allure.attachment_type.TEXT)
 
