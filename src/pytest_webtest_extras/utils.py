@@ -8,13 +8,6 @@ import sys
 import traceback
 
 
-class CssClass:
-    comment = "extras_comment"
-    image = "extras_image"
-    source = "extras_page_source"
-    exception = "extras_exception"
-
-
 #
 # Auxiliary functions to check options and fixtures
 #
