@@ -54,38 +54,45 @@ def screenshots(request):
 
 @pytest.fixture(scope='session')
 def report_folder(request):
+    """ The folder storing the pytest-html report """
     htmlpath = request.config.getoption("--html")
     return utils.get_folder(htmlpath)
 
 
 @pytest.fixture(scope='session')
 def report_css(request):
+    """ The filepath of the CSS to include in the report. """
     return request.config.getoption("--css")
 
 
 @pytest.fixture(scope='session')
 def description_tag(request):
+    """ The HTML tag for the description of each test. """
     tag = request.config.getini("extras_description_tag")
     return tag if tag in ("h1", "h2", "h3", "p", "pre") else "h2"
 
 
 @pytest.fixture(scope='session')
 def comments(request):
+    """ Whether to include the gathered comments in the report. """
     return request.config.getini("extras_comments")
 
 
 @pytest.fixture(scope='session')
 def sources(request):
+    """ Whether to include webpage sources in the report. """
     return request.config.getini("extras_sources")
 
 
 @pytest.fixture(scope='session')
 def include_allure(request):
+    """ Whether to add the same pytes-html extras to the Allure report """
     return request.config.getini("extras_allure")
 
 
 @pytest.fixture(scope='session')
 def check_options(request, report_folder):
+    """ Verifies preconditions before using this plugin. """
     utils.check_html_option(report_folder)
     utils.create_assets(report_folder)
 

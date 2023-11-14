@@ -9,7 +9,7 @@ count = 0
 
 
 def counter():
-    """ Returns a suffix used for image and page source file naming """
+    """ Returns a suffix used for image and webpage source file naming """
     global count
     count += 1
     return count
@@ -21,6 +21,15 @@ class Extras:
     """
 
     def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources, fx_allure):
+        """
+        Args:
+            report_folder (str): The 'report_folder' fixture.
+            fx_screenshots (str): The 'screenshots' fixture.
+            fx_comments (bool): The 'comments' fixture.
+            fx_sources (bool): The 'sources' fixture.
+            fx_allure (bool): The 'include_allure' fixture.
+        """
+
         self.images = []
         self.sources = []
         self.comments = []
@@ -37,10 +46,11 @@ class Extras:
         The webpage source is saved in <forder_report>/sources folder.
         Adds the screenshot and source to Allure report, if applicable.
 
-        image (bytes | str): The screenshot as bytes or base64 string.
-        comment (str): The comment of the screenshot.
-        source (str): The webpage source code.
-        escape_html (bool): Whether to escape HTML characters in the comment.
+        Args:
+            image (bytes | str): The screenshot as bytes or base64 string.
+            comment (str): The comment of the screenshot.
+            source (str): The webpage source code.
+            escape_html (bool): Whether to escape HTML characters in the comment.
         """
         if self._fx_screenshots == 'none':
             return
@@ -84,9 +94,10 @@ class Extras:
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
-        driver (WebDriver): The webdriver.
-        comment (str): The comment for the screenshot to take.
-        full_page (bool): Whether to take a full-page screenshot. Defaults to True.
+        Args:
+            driver (WebDriver): The webdriver.
+            comment (str): The comment for the screenshot to take.
+            full_page (bool): Whether to take a full-page screenshot. Defaults to True.
         """
         from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
         from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
@@ -116,9 +127,10 @@ class Extras:
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
-        page (Page): The page.
-        comment (str): The comment for the screenshot to take.
-        full_page (bool): Whether to take a full-page screenshot. Defaults to True.
+        Args:
+            page (Page): The page.
+            comment (str): The comment for the screenshot to take.
+            full_page (bool): Whether to take a full-page screenshot. Defaults to True.
         """
         if self._fx_screenshots == 'none':
             return

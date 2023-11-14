@@ -12,6 +12,7 @@ import traceback
 # Auxiliary functions to check options and fixtures
 #
 def check_html_option(htmlpath):
+    """ Verifies if the --html has been set by the user. """
     if htmlpath is None:
         msg = ("It seems you are using pytest-selenium-auto plugin.\n"
                "pytest-html plugin is required.\n"
@@ -42,7 +43,7 @@ def get_folder(filepath):
 
 
 def check_lists_length(report, fx_extras):
-    """ Used to verify if the images, comments and page sources lists have the same lenght """
+    """ Verifies if the images, comments and page sources lists have the same lenght """
     message = ('"images", "comments" and "sources" lists don\'t have the same length. '
                "Screenshots won't be logged for this test in pytest-html report.")
     if not (len(fx_extras.images) == len(fx_extras.comments) == len(fx_extras.sources)):
@@ -53,7 +54,7 @@ def check_lists_length(report, fx_extras):
 
 
 def create_assets(report_folder):
-    """ Recreate screenshots, page sources and log folders. """
+    """ Recreate screenshots and webpage sources folders. """
     # Recreate screenshots_folder
     folder = ""
     if report_folder is not None and report_folder != '':
@@ -141,7 +142,6 @@ def append_header(call, report, extras, pytest_html,
 
     Args:
         description (str): The test function docstring.
-
         description_tag (str): The HTML tag to use.
     """
     clazz = "extras_exception"
@@ -214,9 +214,7 @@ def get_table_row_tag(comment, image, source):
 
     Args:
         comment (str): The comment of the test step.
-
         image (str): The screenshot anchor element.
-
         source (str): The page source anchor element.
 
     Returns:
@@ -251,7 +249,6 @@ def decorate_label(label, clazz):
 
     Args:
         label (str): The text to decorate.
-
         clazz (str): The CSS class to apply.
 
     Returns:
