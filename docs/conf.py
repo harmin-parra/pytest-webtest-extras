@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pytest-webtest-extras'
-copyright = '2023, Harmin Parra Rueda'
+copyright = '2024, Harmin Parra Rueda'
 author = 'Harmin Parra Rueda'
 
 # The short X.Y version
