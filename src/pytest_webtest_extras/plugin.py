@@ -54,6 +54,12 @@ def report_folder(request):
 
 
 @pytest.fixture(scope='session')
+def report_allure(request):
+    """ Whether the allure-pytest plugin is being used """
+    return request.config.getoption("--alluredir") is not None
+
+
+@pytest.fixture(scope='session')
 def report_css(request):
     """ The filepath of the CSS to include in the report. """
     return request.config.getoption("--css")
@@ -89,8 +95,8 @@ def check_options(request, report_folder):
 # Test fixture
 #
 @pytest.fixture(scope='function')
-def extras(request, report_folder, screenshots, comments, sources, check_options):
-    return Extras(report_folder, screenshots, comments, sources)
+def extras(request, report_folder, screenshots, comments, sources, report_allure, check_options):
+    return Extras(report_folder, screenshots, comments, sources, report_allure)
 
 
 #

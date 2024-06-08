@@ -1,6 +1,6 @@
 import base64
 import html
-import importlib
+# import importlib
 from typing import Union
 from . import utils
 from selenium.webdriver.remote.webelement import WebElement
@@ -23,13 +23,14 @@ class Extras:
     Class to hold pytest-html 'extras' to be added for each test in the HTML report.
     """
 
-    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources):
+    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources, report_allure):
         """
         Args:
             report_folder (str): The 'report_folder' fixture.
             fx_screenshots (str): The 'screenshots' fixture.
             fx_comments (bool): The 'comments' fixture.
             fx_sources (bool): The 'sources' fixture.
+            report_allure (bool): Whether the allure-pytest plugin is being used.
         """
         self.images = []
         self.sources = []
@@ -38,6 +39,7 @@ class Extras:
         self._fx_comments = fx_comments
         self._fx_sources = fx_sources
         self._folder = report_folder
+        self._allure = report_allure
 
 
     def save_screenshot(self, image: Union[bytes, str], comment=None, source=None, escape_html=True):
@@ -72,8 +74,9 @@ class Extras:
             comment = html.escape(comment, quote=True) if escape_html else comment
         self.comments.append(comment)
 
-        # Add extras to Allure report if Allure module is installed
-        if importlib.util.find_spec('allure') is not None:
+        # Add extras to Allure report if allure-pytest plugin is being used.
+        # if importlib.util.find_spec('allure') is not None:
+        if self._allure:
             import allure
             allure.attach(image, name=comment, attachment_type=allure.attachment_type.PNG)
             # Attach the webpage source
