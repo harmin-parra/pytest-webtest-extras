@@ -17,7 +17,7 @@ def pytest_addoption(parser):
     parser.addini(
         "extras_comments",
         type="bool",
-        default=False,
+        default=True,
         help="Whether to include comments."
     )
     parser.addini(
@@ -25,12 +25,6 @@ def pytest_addoption(parser):
         type="bool",
         default=False,
         help="Whether to include webpage sources."
-    )
-    parser.addini(
-        "extras_allure",
-        type="bool",
-        default=True,
-        help="Whether to attach extras to allure."
     )
     parser.addini(
         "extras_description_tag",
@@ -85,12 +79,6 @@ def sources(request):
 
 
 @pytest.fixture(scope='session')
-def include_allure(request):
-    """ Whether to add the same pytes-html extras to the Allure report """
-    return request.config.getini("extras_allure")
-
-
-@pytest.fixture(scope='session')
 def check_options(request, report_folder):
     """ Verifies preconditions before using this plugin. """
     utils.check_html_option(report_folder)
@@ -101,8 +89,8 @@ def check_options(request, report_folder):
 # Test fixture
 #
 @pytest.fixture(scope='function')
-def report_extras(request, report_folder, screenshots, comments, sources, check_options, include_allure):
-    return Extras(report_folder, screenshots, comments, sources, include_allure)
+def extras(request, report_folder, screenshots, comments, sources, check_options):
+    return Extras(report_folder, screenshots, comments, sources)
 
 
 #
@@ -116,44 +104,44 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     extras = getattr(report, 'extras', [])
 
-    # Is the test item using the 'report_extras' fixtures?
-    if not ("request" in item.funcargs and "report_extras" in item.funcargs):
+    # Is the test item using the 'extras' fixtures?
+    if not ("request" in item.funcargs and "extras" in item.funcargs):
         return
 
     if report.when == 'call':
         # Get test fixture values
         feature_request = item.funcargs['request']
-        report_extras = feature_request.getfixturevalue("report_extras")
-        description_tag = feature_request.getfixturevalue("description_tag")
-        screenshots = feature_request.getfixturevalue("screenshots")
-        log_comments = feature_request.getfixturevalue("comments")
-        images = report_extras.images
-        sources = report_extras.sources
-        comments = report_extras.comments
+        fx_extras = feature_request.getfixturevalue("extras")
+        fx_description_tag = feature_request.getfixturevalue("description_tag")
+        fx_screenshots = feature_request.getfixturevalue("screenshots")
+        fx_comments = feature_request.getfixturevalue("comments")
+        images = fx_extras.images
+        sources = fx_extras.sources
+        comments = fx_extras.comments
 
         # Append test description and execution exception trace, if any.
         description = item.function.__doc__ if hasattr(item, 'function') else None
-        utils.append_header(call, report, extras, pytest_html, description, description_tag)
+        utils.append_header(call, report, extras, pytest_html, description, fx_description_tag)
 
-        if screenshots == "none" or len(images) == 0:
+        if fx_screenshots == "none" or len(images) == 0:
             return
 
-        if not utils.check_lists_length(report, report_extras):
+        if not utils.check_lists_length(report, fx_extras):
             return
 
         # Generate HTML code for the extras to be added in the report
         links = ""  # Used when logging without comments
         rows = ""   # Used when logging with comments
-        if screenshots == "all":
-            if not log_comments:
+        if fx_screenshots == "all":
+            if not fx_comments:
                 for i in range(len(images)):
                     links += utils.decorate_anchors(images[i], sources[i])
             else:
                 for i in range(len(images)):
                     rows += utils.get_table_row_tag(comments[i], images[i], sources[i])
-        else:  # screenshots == "last"
+        else:  # fx_screenshots == "last"
             if len(images) > 0:
-                if not log_comments:
+                if not fx_comments:
                     links = utils.decorate_anchors(images[-1], sources[-1])
                 else:
                     rows += utils.get_table_row_tag(comments[-1], images[-1], sources[-1])
@@ -175,7 +163,7 @@ def pytest_runtest_makereport(item, call):
         report.extras = extras
 
         # Log error message if there was a screenshot gathering failure
-        if screenshots != 'none':
+        if fx_screenshots != 'none':
             for image in images:
                 if image == f"screenshots{os.sep}error.png":
                     message = "Failure gathering screenshot(s)"

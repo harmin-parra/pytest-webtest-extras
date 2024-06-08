@@ -1,7 +1,10 @@
 import base64
 import html
+import importlib
 from typing import Union
 from . import utils
+from selenium.webdriver.remote.webelement import WebElement
+from playwright.sync_api import Page
 
 
 # Counter used for image and page source files naming
@@ -20,16 +23,14 @@ class Extras:
     Class to hold pytest-html 'extras' to be added for each test in the HTML report.
     """
 
-    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources, fx_allure):
+    def __init__(self, report_folder, fx_screenshots, fx_comments, fx_sources):
         """
         Args:
             report_folder (str): The 'report_folder' fixture.
             fx_screenshots (str): The 'screenshots' fixture.
             fx_comments (bool): The 'comments' fixture.
             fx_sources (bool): The 'sources' fixture.
-            fx_allure (bool): The 'include_allure' fixture.
         """
-
         self.images = []
         self.sources = []
         self.comments = []
@@ -37,7 +38,7 @@ class Extras:
         self._fx_comments = fx_comments
         self._fx_sources = fx_sources
         self._folder = report_folder
-        self._fx_allure = fx_allure
+
 
     def save_screenshot(self, image: Union[bytes, str], comment=None, source=None, escape_html=True):
         """
@@ -71,71 +72,70 @@ class Extras:
             comment = html.escape(comment, quote=True) if escape_html else comment
         self.comments.append(comment)
 
-        # Add extras to Allure report
-        if self._fx_allure:
+        # Add extras to Allure report if Allure module is installed
+        if importlib.util.find_spec('allure') is not None:
             import allure
-            # Attach the comment
-            if comment is not None and self._fx_comments:
-                allure.attach(comment, name=f"comment-{index}", attachment_type=allure.attachment_type.TEXT)
-            # Attach the image
-            filename = f"image-{index}"
-            # Was there an error taking the screenshot?
-            if "error.png" in link_image:
-                filename += " (screenshot error)"
-                # Let's attach a 1x1 white pixel as image instead
-                image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
-                image = base64.b64decode(image.encode())
-            allure.attach(image, name=filename, attachment_type=allure.attachment_type.PNG)
+            allure.attach(image, name=comment, attachment_type=allure.attachment_type.PNG)
             # Attach the webpage source
             if source is not None:
-                allure.attach(source, name=f"source-{index}", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(source, name="page source", attachment_type=allure.attachment_type.TEXT)
 
-    def save_screenshot_for_selenium(self, driver, comment=None, full_page=True, escape_html=True):
+
+    def screenshot_for_selenium(self, target, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
         Args:
-            driver (WebDriver): The webdriver.
+            target (WebDriver | WebElement): The target of the screenshot.
             comment (str): The comment for the screenshot to take.
-            full_page (bool): Whether to take a full-page screenshot. Defaults to True.
+            full_page (bool): Whether to take a full-page screenshot if the target is a WebDriver instance.
+                              Defaults to True.
         """
         from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
         from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
         from selenium.webdriver.edge.webdriver import WebDriver as WebDriver_Edge
 
+        source = None
         if self._fx_screenshots == 'none':
             return
-        if full_page:
-            if hasattr(driver, "get_full_page_screenshot_as_png"):
-                image = driver.get_full_page_screenshot_as_png()
-            else:
-                if type(driver) in (WebDriver_Chrome, WebDriver_Chromium, WebDriver_Edge):
-                    try:
-                        image = utils.get_full_page_screenshot_chromium(driver)
-                    except:
-                        image = driver.get_screenshot_as_png()
-                else:
-                    image = driver.get_screenshot_as_png()
+        if isinstance(target, WebElement):
+            image = target.screenshot_as_png
         else:
-            image = driver.get_screenshot_as_png()
-        source = None
-        if self._fx_sources:
-            source = driver.page_source
+            if full_page is True:
+                if hasattr(target, "get_full_page_screenshot_as_png"):
+                    image = target.get_full_page_screenshot_as_png()
+                else:
+                    if type(target) in (WebDriver_Chrome, WebDriver_Chromium, WebDriver_Edge):
+                        try:
+                            image = utils.get_full_page_screenshot_chromium(target)
+                        except:
+                            image = target.get_screenshot_as_png()
+                    else:
+                        image = target.get_screenshot_as_png()
+            else:
+                image = target.get_screenshot_as_png()
+            if self._fx_sources:
+                source = target.page_source
         self.save_screenshot(image, comment, source, escape_html)
 
-    def save_screenshot_for_playwright(self, page, comment=None, full_page=True, escape_html=True):
+
+    def screenshot_for_playwright(self, target, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
         Args:
-            page (Page): The page.
+            target (Page | Locator): The target of the screenshot.
             comment (str): The comment for the screenshot to take.
-            full_page (bool): Whether to take a full-page screenshot. Defaults to True.
+            full_page (bool): Whether to take a full-page screenshot if the target is a Page instance.
+                              Defaults to True.
         """
+        source = None
         if self._fx_screenshots == 'none':
             return
-        image = page.screenshot(full_page=full_page)
-        source = None
-        if self._fx_sources:
-            source = page.content()
+        if isinstance(target, Page):
+            image = target.screenshot(full_page=full_page)
+            if self._fx_sources:
+                source = target.content()
+        else:
+            image = target.screenshot()
         self.save_screenshot(image, comment, source, escape_html)
