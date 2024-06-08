@@ -3,6 +3,16 @@ Changelog
 =========
 
 
+1.2.0
+=====
+
+**Improvement**
+* Removal of redundant `extras_allure` INI option.
+
+**Change**
+* Default value of `extras_comments` INI option is True.
+
+
 1.1.0
 =====
 
