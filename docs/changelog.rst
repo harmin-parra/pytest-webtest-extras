@@ -7,9 +7,11 @@ Changelog
 =====
 
 **Improvement**
+
 * Removal of redundant `extras_allure` INI option.
 
 **Change**
+
 * Default value of `extras_comments` INI option is True.
 
 
