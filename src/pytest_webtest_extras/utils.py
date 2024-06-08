@@ -14,7 +14,7 @@ import traceback
 def check_html_option(htmlpath):
     """ Verifies if the --html has been set by the user. """
     if htmlpath is None:
-        msg = ("It seems you are using pytest-selenium-auto plugin.\n"
+        msg = ("It seems you are using pytest-webtest-extras plugin.\n"
                "pytest-html plugin is required.\n"
                "'--html' option is missing.\n")
         print(msg, file=sys.stderr)
