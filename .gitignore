@@ -1,7 +1,8 @@
 .project
 .pydevproject
 .settings/
-.idea
+.idea/
+.vscode/
 
 .mypy_cache/
 .pytest_cache/
