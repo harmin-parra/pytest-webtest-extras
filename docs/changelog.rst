@@ -12,6 +12,7 @@ Changelog
 
 **Change**
 
+* The ``report-extras`` fixture has been renamed to ``extras``.
 * Default value of ``extras_comments`` INI option is ``True``.
 
 
