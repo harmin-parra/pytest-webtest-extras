@@ -10,10 +10,13 @@ Changelog
 
 * Removal of redundant ``extras_allure`` INI option.
 
-**Change**
+**Changes**
 
 * The ``report-extras`` fixture has been renamed to ``extras``.
 * Default value of ``extras_comments`` INI option is ``True``.
+
+**Bug fix**
+
 * Fix error message mistake.
 
 
