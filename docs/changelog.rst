@@ -8,11 +8,11 @@ Changelog
 
 **Improvement**
 
-* Removal of redundant `extras_allure` INI option.
+* Removal of redundant ``extras_allure`` INI option.
 
 **Change**
 
-* Default value of `extras_comments` INI option is True.
+* Default value of ``extras_comments`` INI option is ``True``.
 
 
 1.1.0
