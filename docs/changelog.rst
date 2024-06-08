@@ -14,6 +14,7 @@ Changelog
 
 * The ``report-extras`` fixture has been renamed to ``extras``.
 * Default value of ``extras_comments`` INI option is ``True``.
+* Fix error message mistake.
 
 
 1.1.0
