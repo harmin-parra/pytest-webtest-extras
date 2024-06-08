@@ -30,21 +30,13 @@ Default value: ``all``
 
 Whether to include gathered comments in the report.
 
-Default value: ``False``
+Default value: ``True``
 
 ----
 
 * ``extras_sources``
 
 Whether to include gathered webpage sources in the report.
-
-Default value: ``False``
-
-----
-
-* ``extras_allure``
-
-Whether to include the same extra HTML content in the Allure report.
 
 Default value: ``False``
 
@@ -62,18 +54,18 @@ Default value: ``h2``
 API
 ===
 
-The function scoped fixture ``report_extras`` provides the following methods:
+The function scoped fixture ``extras`` provides the following methods:
 
 .. code-block:: python
 
-  save_screenshot_for_selenium(
+  screenshot_for_selenium(
       driver: WebDriver,
       comment: str = None,
       full_page: bool = True
       escape_html: bool = True  # Whether to escape HTML characters in the comment.
   )
   
-  save_screenshot_for_playwright(
+  screenshot_for_playwright(
       page: Page,
       comment: str = None,
       full_page: bool = True,
@@ -137,17 +129,17 @@ Sample code
 
 .. code-block:: python
 
-  def test_with_selenium(report_extras):
+  def test_with_selenium(extras):
       """
       This is a test using Selenium
       """
       driver = WebDriver()
       driver.get("https://www.selenium.dev/selenium/web/web-form.html")
-      report_extras.save_screenshot_for_selenium(driver, "Get the webpage to test", full_page=False)
+      extras.screenshot_for_selenium(driver, "Get the webpage to test", full_page=False)
       driver.find_element(By.ID, "my-text-id").send_keys("Hello World!")
-      report_extras.save_screenshot_for_selenium(driver, "<h1>Set input text</h1>", escape_html=False)
+      extras.screenshot_for_selenium(driver, "<h1>Set input text</h1>", escape_html=False)
       driver.find_element(By.NAME, "my-password").send_keys("password")
-      report_extras.save_screenshot_for_selenium(driver, "Set password")
+      extras.screenshot_for_selenium(driver, "Set password")
       driver.quit()
 
 
@@ -155,16 +147,16 @@ Sample code
 
 .. code-block:: python
 
-  def test_with_playwright(page: Page, report_extras):
+  def test_with_playwright(page: Page, extras):
       """
       This is a test using Playwright
       """
       page.goto("https://www.selenium.dev/selenium/web/web-form.html")
-      report_extras.save_screenshot_for_playwright(page, comment="Get the webpage to test")
+      extras.screenshot_for_playwright(page, comment="Get the webpage to test")
       page.get_by_label("Text input").fill("Hello World!")
-      report_extras.save_screenshot_for_playwright(page, "Hello World!")
+      extras.screenshot_for_playwright(page, "Hello World!")
       page.get_by_label("Password").fill("password")
-      report_extras.save_screenshot_for_playwright(page, "Set password")
+      extras.screenshot_for_playwright(page, "Set password")
 
 
 Sample CSS file
