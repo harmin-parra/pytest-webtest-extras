@@ -1,10 +1,14 @@
 import base64
 import html
-# import importlib
+import importlib
 from typing import Union
 from . import utils
-from selenium.webdriver.remote.webelement import WebElement
-from playwright.sync_api import Page
+
+if importlib.util.find_spec('selenium') is not None:
+    from selenium.webdriver.remote.webelement import WebElement
+
+if importlib.util.find_spec('playwright') is not None:
+    from playwright.sync_api import Page
 
 
 # Counter used for image and page source files naming
