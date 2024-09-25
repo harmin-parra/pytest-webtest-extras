@@ -3,6 +3,7 @@ import html
 import importlib
 import json
 import re
+import sys
 import xml.parsers.expat as expat
 import xml.dom.minidom as xdom
 import yaml
