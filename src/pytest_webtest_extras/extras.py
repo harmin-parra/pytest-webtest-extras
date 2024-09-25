@@ -1,10 +1,13 @@
 import base64
 import html
 # import importlib
+import json
+import re
+import xml.parsers.expat as expat
+import xml.dom.minidom as xdom
+import yaml
 from typing import Union
 from . import utils
-from selenium.webdriver.remote.webelement import WebElement
-from playwright.sync_api import Page
 
 
 # Counter used for image and page source files naming
@@ -84,7 +87,7 @@ class Extras:
                 allure.attach(source, name="page source", attachment_type=allure.attachment_type.TEXT)
 
 
-    def screenshot_for_selenium(self, target, comment=None, full_page=True, escape_html=True):
+    def screenshot_selenium(self, target, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
@@ -97,6 +100,7 @@ class Extras:
         from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
         from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
         from selenium.webdriver.edge.webdriver import WebDriver as WebDriver_Edge
+        from selenium.webdriver.remote.webelement import WebElement
 
         source = None
         if self._fx_screenshots == 'none':
@@ -122,7 +126,7 @@ class Extras:
         self.save_screenshot(image, comment, source, escape_html)
 
 
-    def screenshot_for_playwright(self, target, comment=None, full_page=True, escape_html=True):
+    def screenshot_playwright(self, target, comment=None, full_page=True, escape_html=True):
         """
         Saves the pytest-html 'extras': screenshot, comment and webpage source.
 
@@ -132,6 +136,7 @@ class Extras:
             full_page (bool): Whether to take a full-page screenshot if the target is a Page instance.
                               Defaults to True.
         """
+        from playwright.sync_api import Page
         source = None
         if self._fx_screenshots == 'none':
             return
@@ -142,3 +147,71 @@ class Extras:
         else:
             image = target.screenshot()
         self.save_screenshot(image, comment, source, escape_html)
+
+
+    def screenshot_for_selenium(self, target, comment=None, full_page=True, escape_html=True):
+        self.screenshot_selenium(target, comment, full_page, escape_html)
+
+
+    def screenshot_for_playwright(self, target, comment=None, full_page=True, escape_html=True):
+        self.screenshot_playwright(target, comment, full_page, escape_html)
+
+
+    def format_json_file(self, filepath, indent=4):
+        """
+        Formats the contents of a JSON file.
+        """
+        f = open(filepath, 'r')
+        content = f.read()
+        f.close()
+        return self.format_json_str(content, indent)
+
+
+    def format_json_str(self, content, indent=4):
+        """
+        Formats a string holding a JSON content.
+        """
+        content = json.loads(content)
+        return json.dumps(content, indent=indent)
+
+
+    def format_xml_file(self, filepath, indent=4):
+        """
+        Formats the contents of a XML file.
+        """
+        f = open(filepath, 'r')
+        content = f.read()
+        f.close()
+        return self.format_xml_str(content, indent)
+
+
+    def format_xml_str(self, content, indent=4):
+        """
+        Formats a string holding a XML content.
+        """
+        result = None
+        try:
+            result = xdom.parseString(re.sub(r"\n\s+", "",  content).replace('\n','')).toprettyxml(indent=" " * indent)
+        except expat.ExpatError:
+            if content is None:
+                content = 'None'
+            result = "Raw text:\n" + content
+        return result
+
+
+    def format_yaml_file(self, filepath, indent=4):
+        """
+        Formats the contents of a YAML file.
+        """
+        f = open(filepath, 'r')
+        content = f.read()
+        f.close()
+        return self.format_yaml_str(content, indent)
+
+
+    def format_yaml_str(self, content, indent=4):
+        """
+        Formats a string holding a YAML content.
+        """
+        content = yaml.safe_load(content)
+        return yaml.dump(content, indent=indent)
