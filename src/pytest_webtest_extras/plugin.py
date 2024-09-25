@@ -56,7 +56,7 @@ def report_folder(request):
 @pytest.fixture(scope='session')
 def report_allure(request):
     """ Whether the allure-pytest plugin is being used """
-    return request.config.getoption("--alluredir") is not None
+    return request.config.getoption("--alluredir", default=None) is not None
 
 
 @pytest.fixture(scope='session')
