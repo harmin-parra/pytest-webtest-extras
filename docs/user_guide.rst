@@ -58,14 +58,14 @@ The function scoped fixture ``extras`` provides the following methods:
 
 .. code-block:: python
 
-  screenshot_for_selenium(
+  screenshot_selenium(
       driver: WebDriver,
       comment: str = None,
       full_page: bool = True
       escape_html: bool = True  # Whether to escape HTML characters in the comment.
   )
   
-  screenshot_for_playwright(
+  screenshot_playwright(
       page: Page,
       comment: str = None,
       full_page: bool = True,
@@ -135,11 +135,11 @@ Sample code
       """
       driver = WebDriver()
       driver.get("https://www.selenium.dev/selenium/web/web-form.html")
-      extras.screenshot_for_selenium(driver, "Get the webpage to test", full_page=False)
+      extras.screenshot_selenium(driver, "Get the webpage to test", full_page=False)
       driver.find_element(By.ID, "my-text-id").send_keys("Hello World!")
-      extras.screenshot_for_selenium(driver, "<h1>Set input text</h1>", escape_html=False)
+      extras.screenshot_selenium(driver, "<h1>Set input text</h1>", escape_html=False)
       driver.find_element(By.NAME, "my-password").send_keys("password")
-      extras.screenshot_for_selenium(driver, "Set password")
+      extras.screenshot_selenium(driver, "Set password")
       driver.quit()
 
 
@@ -152,11 +152,11 @@ Sample code
       This is a test using Playwright
       """
       page.goto("https://www.selenium.dev/selenium/web/web-form.html")
-      extras.screenshot_for_playwright(page, comment="Get the webpage to test")
+      extras.screenshot_playwright(page, comment="Get the webpage to test")
       page.get_by_label("Text input").fill("Hello World!")
-      extras.screenshot_for_playwright(page, "Hello World!")
+      extras.screenshot_playwright(page, "Hello World!")
       page.get_by_label("Password").fill("password")
-      extras.screenshot_for_playwright(page, "Set password")
+      extras.screenshot_playwright(page, "Set password")
 
 
 Sample CSS file
