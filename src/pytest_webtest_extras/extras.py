@@ -1,6 +1,6 @@
 import base64
 import html
-# import importlib
+import importlib
 import json
 import re
 import xml.parsers.expat as expat
@@ -97,10 +97,13 @@ class Extras:
             full_page (bool): Whether to take a full-page screenshot if the target is a WebDriver instance.
                               Defaults to True.
         """
-        from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
-        from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
-        from selenium.webdriver.edge.webdriver import WebDriver as WebDriver_Edge
-        from selenium.webdriver.remote.webelement import WebElement
+        if importlib.util.find_spec('selenium') is not None:
+            from selenium.webdriver.chrome.webdriver import WebDriver as WebDriver_Chrome
+            from selenium.webdriver.chromium.webdriver import ChromiumDriver as WebDriver_Chromium
+            from selenium.webdriver.edge.webdriver import WebDriver as WebDriver_Edge
+            from selenium.webdriver.remote.webelement import WebElement
+        else:
+            print("Selenium module is not installed.", file=sys.stderr)
 
         source = None
         if self._fx_screenshots == 'none':
@@ -136,7 +139,11 @@ class Extras:
             full_page (bool): Whether to take a full-page screenshot if the target is a Page instance.
                               Defaults to True.
         """
-        from playwright.sync_api import Page
+        if importlib.util.find_spec('playwright') is not None:
+            from playwright.sync_api import Page
+        else:
+            print("Playwright module is not installed.", file=sys.stderr)
+
         source = None
         if self._fx_screenshots == 'none':
             return
