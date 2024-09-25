@@ -104,6 +104,7 @@ class Extras:
             from selenium.webdriver.remote.webelement import WebElement
         else:
             print("Selenium module is not installed.", file=sys.stderr)
+            return
 
         source = None
         if self._fx_screenshots == 'none':
@@ -143,6 +144,7 @@ class Extras:
             from playwright.sync_api import Page
         else:
             print("Playwright module is not installed.", file=sys.stderr)
+            return
 
         source = None
         if self._fx_screenshots == 'none':
