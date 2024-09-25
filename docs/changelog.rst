@@ -6,7 +6,7 @@ Changelog
 1.2.2
 =====
 
-**Bug fix**
+**Bug fixes**
 
 * Error when config option ``--alluredir`` is missing.
 * Better handling of missing optional dependencies (**Selenium** and **Playwright**).
