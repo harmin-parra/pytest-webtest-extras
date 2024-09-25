@@ -3,6 +3,23 @@ Changelog
 =========
 
 
+1.2.1
+=====
+
+**Improvement**
+
+* Addition of auxiliary functions to format XML, JSON and YAML data from files and strings.
+
+**Changes**
+
+* ``screenshot_for_selenium`` method has been renamed to ``screenshot_selenium``.
+* ``screenshot_for_playwright`` method has been renamed to ``screenshot_playwright``.
+
+**Bug fix**
+
+* **Playwright** package should be an optional dependency.
+
+
 1.2.0
 =====
 
