@@ -95,7 +95,7 @@ def check_options(request, report_folder):
 # Test fixture
 #
 @pytest.fixture(scope='function')
-def extras(request, report_folder, screenshots, comments, sources, report_allure, check_options):
+def report(request, report_folder, screenshots, comments, sources, report_allure, check_options):
     return Extras(report_folder, screenshots, comments, sources, report_allure)
 
 
