@@ -4,6 +4,7 @@ import importlib
 import json
 import re
 import sys
+import warnings
 import xml.parsers.expat as expat
 import xml.dom.minidom as xdom
 import yaml
@@ -160,10 +161,18 @@ class Extras:
 
 
     def screenshot_for_selenium(self, target, comment=None, full_page=True, escape_html=True):
+        warnings.warn(
+            "\nThe 'extras.screenshot_for_selenium' method is deprecated.\n"
+            "Use 'extras.screenshot_selenium' method instead.\n"
+        )
         self.screenshot_selenium(target, comment, full_page, escape_html)
 
 
     def screenshot_for_playwright(self, target, comment=None, full_page=True, escape_html=True):
+        warnings.warn(
+            "\nThe 'extras.screenshot_for_playwright' method is deprecated.\n"
+            "Use 'extras.screenshot_playwright' method instead.\n"
+        )
         self.screenshot_playwright(target, comment, full_page, escape_html)
 
 

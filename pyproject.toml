@@ -12,7 +12,7 @@ readme = "README.md"
 authors = [
     {name = "Harmin Parra Rueda", email="harmin.rueda@gmail.com"},
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     'pytest >= 7.0.0',
     'pytest-html >= 4.0.0',
