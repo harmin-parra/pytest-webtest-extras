@@ -110,20 +110,20 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     extras = getattr(report, 'extras', [])
 
-    # Is the test item using the 'extras' fixtures?
-    if not ("request" in item.funcargs and "extras" in item.funcargs):
+    # Is the test item using the 'report' fixtures?
+    if not ("request" in item.funcargs and "report" in item.funcargs):
         return
 
     if report.when == 'call':
         # Get test fixture values
         feature_request = item.funcargs['request']
-        fx_extras = feature_request.getfixturevalue("extras")
+        fx_report = feature_request.getfixturevalue("report")
         fx_description_tag = feature_request.getfixturevalue("description_tag")
         fx_screenshots = feature_request.getfixturevalue("screenshots")
         fx_comments = feature_request.getfixturevalue("comments")
-        images = fx_extras.images
-        sources = fx_extras.sources
-        comments = fx_extras.comments
+        images = fx_report.images
+        sources = fx_report.sources
+        comments = fx_report.comments
 
         # Append test description and execution exception trace, if any.
         description = item.function.__doc__ if hasattr(item, 'function') else None
@@ -132,7 +132,7 @@ def pytest_runtest_makereport(item, call):
         if fx_screenshots == "none" or len(images) == 0:
             return
 
-        if not utils.check_lists_length(report, fx_extras):
+        if not utils.check_lists_length(report, fx_report):
             return
 
         # Generate HTML code for the extras to be added in the report
