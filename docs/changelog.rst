@@ -8,7 +8,7 @@ Changelog
 
 **Changes**
 
-* Fixture ``extras`` was renamed to ``report`` as pytest-html v4.0.0 introduced a fixture with the same name causing a collision.
+* Fixture ``extras`` was renamed to ``report`` as **pytest-html** v4.0.0 introduced a fixture with the same name causing a collision.
 
 
 1.2.2
