@@ -176,35 +176,35 @@ class Extras:
         self.screenshot_playwright(target, comment, full_page, escape_html)
 
 
-    def format_json_file(self, filepath, indent=4):
+    def _format_json_file(self, filepath, indent=4):
         """
         Formats the contents of a JSON file.
         """
         f = open(filepath, 'r')
         content = f.read()
         f.close()
-        return self.format_json_str(content, indent)
+        return self._format_json_str(content, indent)
 
 
-    def format_json_str(self, content, indent=4):
+    def _format_json_str(self, content, indent=4):
         """
         Formats a string holding a JSON content.
         """
         content = json.loads(content)
-        return json.dumps(content, indent=indent)
+        return json.dumps(content, indent=indent) + '\n'
 
 
-    def format_xml_file(self, filepath, indent=4):
+    def _format_xml_file(self, filepath, indent=4):
         """
         Formats the contents of a XML file.
         """
         f = open(filepath, 'r')
         content = f.read()
         f.close()
-        return self.format_xml_str(content, indent)
+        return self._format_xml_str(content, indent)
 
 
-    def format_xml_str(self, content, indent=4):
+    def _format_xml_str(self, content, indent=4):
         """
         Formats a string holding a XML content.
         """
@@ -218,19 +218,73 @@ class Extras:
         return result
 
 
-    def format_yaml_file(self, filepath, indent=4):
+    def _format_yaml_file(self, filepath, indent=4):
         """
         Formats the contents of a YAML file.
         """
         f = open(filepath, 'r')
         content = f.read()
         f.close()
-        return self.format_yaml_str(content, indent)
+        return self._format_yaml_str(content, indent)
 
 
-    def format_yaml_str(self, content, indent=4):
+    def _format_yaml_str(self, content, indent=4):
         """
-        Formats a string holding a YAML content.
+        Formats a string containing a YAML document content.
         """
         content = yaml.safe_load(content)
         return yaml.dump(content, indent=indent)
+
+
+    def add_xml_file(self, description, filepath, file=sys.stdout, indent=4):
+        """
+        Adds the content of a XML file to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_xml_file(filepath, indent), file=file)
+
+
+    def add_xml_str(self, description, content, file=sys.stdout, indent=4):
+        """
+        Adds a string containing a XML document to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_xml_str(content, indent), file=file)
+
+
+    def add_json_file(self, description, filepath, file=sys.stdout, indent=4):
+        """
+        Adds the content of an JSON file to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_json_file(filepath, indent), file=file)
+
+
+    def add_json_str(self, description, content, file=sys.stdout, indent=4):
+        """
+        Adds a string containing a JSON document to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_json_str(content, indent), file=file)
+
+
+    def add_yaml_file(self, description, filepath, file=sys.stdout, indent=4):
+        """
+        Adds the content of a YAML file to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_yaml_file(filepath, indent), file=file)
+
+
+    def add_yaml_str(self, description, content, file=sys.stdout, indent=4):
+        """
+        Adds a string holding a YAML to the report.
+        """
+        if description is not None:
+            print(description + '\n', file=file)
+        print(self._format_yaml_str(content, indent), file=file)
