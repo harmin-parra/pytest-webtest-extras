@@ -3,6 +3,16 @@ Changelog
 =========
 
 
+1.3.1
+=====
+
+**This project is deprecated**
+
+**Changes**
+
+* Add deprecation warnings.
+
+
 1.3.0
 =====
 
