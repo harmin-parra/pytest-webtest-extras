@@ -102,6 +102,14 @@ def report(request, report_folder, screenshots, comments, sources, report_allure
 #
 # Hookers
 #
+
+@pytest.hookimpl(trylast=True)
+def pytest_sessionfinish(session, exitstatus):
+    import warnings
+    warnings.warn("\n\npytest-webtest-extras plugin is deprecated.\nPlease use 'pytest-report-extras' plugin instead (https://pytest-report-extras.readthedocs.io/stable/)\n", DeprecationWarning)
+    
+
+
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """ Override report generation. """
