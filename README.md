@@ -11,8 +11,6 @@ Pytest plugin to enhance pytest-html and Allure reports of webtest projects with
 ## Resources ##
 
 - [Documentation](https://pytest-webtest-extras.readthedocs.io/en/stable/)
-- [Issue tracker](https://github.com/harmin-parra/pytest-webtest-extras/issues)
-- [Source code](https://github.com/harmin-parra/pytest-webtest-extras)
 
 <br/>
 
