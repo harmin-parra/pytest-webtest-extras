@@ -9,7 +9,9 @@ pytest-webtest-extras
 
 **THIS PLUGIN IS DEPRECATED.**
 
-**PLEASE USE [pytest-report-extras](https://pytest-report-extras.readthedocs.io/stable/) PLUGIN INSTEAD.**
+**PLEASE USE** `pytest-report-extras`_ **PLUGIN INSTEAD.**
+
+.. _pytest-report-extras: https://pytest-report-extras.readthedocs.io/stable/
 
 Pytest plugin to enhance pytest-html reports of webtest projects by adding screenshots, comments and webpage sources.
 
