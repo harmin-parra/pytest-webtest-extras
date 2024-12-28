@@ -10,7 +10,7 @@ Changelog
 
 **Changes**
 
-* Add deprecation warnings.
+* Add deprecation warning.
 
 
 1.3.0
