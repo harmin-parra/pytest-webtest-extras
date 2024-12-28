@@ -1,12 +1,8 @@
 # pytest-webtest-extras
 
-<span style="color: red;">
-This plugin is deprecated.
-</span>
-<br><br>
-<span style="color: red;">
-Please use <a href="https://pytest-report-extras.readthedocs.io/stable/">pytest-report-extras</a> plugin instead.
-</span>
+**THIS PLUGIN IS DEPRECATED.**
+
+**PLEASE USE [pytest-report-extras](https://pytest-report-extras.readthedocs.io/stable/) PLUGIN INSTEAD.**
 
 Pytest plugin to enhance pytest-html and Allure reports of webtest projects with screenshots, comments and webpage sources.
 
